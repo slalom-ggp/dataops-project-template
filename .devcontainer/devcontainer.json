@@ -1,0 +1,25 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+	"dockerComposeFile": "docker-compose.dev.yml",
+	// "runArgs": [
+	// 	"--env-file","devcontainer.env",
+	// 	"-v", "meltano-bashhistory:/root/commandhistory",
+	// ],
+	"service": "meltano_dev",
+	"workspaceFolder": "/.source/meltano-project/",
+	"extensions": [
+		// "atlassian.atlascode", 		// Atlassian Bitbucket and Jira
+		// // Bug in Atlassian extension when run in Remote-Containers:
+		// // https://bitbucket.org/atlassianlabs/atlascode/issues/112/cannot-activate-the-atlassian-for-vscode#comment-52196214
+		"eamodio.gitlens", // Git, Robust VS Code GUI
+		"ms-python.python", // Python
+		"redhat.vscode-yaml", // YAML
+	],
+	"name": "meltano-container-dev",
+	// "postCreateCommand": "source /.source/bin/init_dev_env.sh",
+	"settings": {
+		// "python.pythonPath": "/opt/conda/bin/python",
+		// use a distinct theme to indicate we are in a container
+		"workbench.colorTheme": "Visual Studio Dark",
+	}
+}

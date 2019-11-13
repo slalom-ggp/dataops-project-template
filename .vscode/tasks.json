@@ -1,0 +1,49 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "▶ (1) Configure Dev Environment",
+            "type": "process", // "shell" or "process"
+            "command": ["nano"],
+            "windows": {
+                "command": "notepad"
+            },
+            "args": [".env"],
+            "options": {
+                "cwd": "meltano-project",
+                "statusbar": {
+                    "color": "#ffffff",
+                    "tooltip": "Click to initialize or configure project settings",
+                    "label": ">config!"
+                }
+            },
+            "group": "build", // "test" for tests
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared",
+                "revealProblems": "onProblem"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "▶ (2) Rebuild Dev Environment",
+            "type": "shell", // "shell" or "process"
+            "command": "docker-compose --project-name dataops-project-template_devcontainer -f .devcontainer/docker-compose.dev.yml down && docker-compose --file .devcontainer/docker-compose.dev.yml build",
+            "group": "build", // "test" for tests
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "options": {
+                "statusbar": {
+                    "color": "#ffffff",
+                    "tooltip": "Click to build the main docker image...",
+                    "label": ">docker-build!"
+                }
+            }
+        },
+    ]
+}

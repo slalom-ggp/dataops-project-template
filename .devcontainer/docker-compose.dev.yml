@@ -1,0 +1,40 @@
+version: '3.1'
+services:
+  meltano_dev:
+    build: 
+      context: ..
+      args: []
+    container_name: meltano
+    user: root
+    # working_dir: /projects/my-project
+    ports:
+     - "5000:5000"
+     - "5010:5010"
+    volumes:
+     - /c/:/c/
+     - ../meltano-project:/projects/my-project
+     - ..:/projects/.source
+     - ./.vscode-server/:/root/.vscode-server
+     - ./.vscode-server-insiders/:/root/.vscode-server-insiders
+    #  - ~/.aws/credentials:/home/jovyan/.aws/credentials
+    environment:
+      - MELTANO_ROOT=/projects/my-project
+      - PROJECT_NAME=my-project
+      - PYTHONUNBUFFERED=1
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+  meltano_db:
+    image: postgres:11
+    container_name: warehouse
+    # command: ["-c", "\"listen_addresses='*'\""]
+    environment:
+      POSTGRES_DB: warehouse
+      POSTGRES_PASSWORD: warehouse
+      POSTGRES_USER: warehouse
+    ports:
+    - '5502:5432'
+  # spark_db:
+  #   image: slalom-ggp/spark-ds
+  #   container_name: spark
+  #   environment: []
+  #   ports: []
