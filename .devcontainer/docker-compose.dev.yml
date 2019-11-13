@@ -6,20 +6,20 @@ services:
       args: []
     container_name: meltano
     user: root
-    # working_dir: /projects/my-project
+    working_dir: /projects/meltano-project
     ports:
      - "5000:5000"
      - "5010:5010"
     volumes:
      - /c/:/c/
-     - ../meltano-project:/projects/my-project
+     - ../meltano-project:/projects/meltano-project
      - ..:/projects/.source
      - ./.vscode-server/:/root/.vscode-server
      - ./.vscode-server-insiders/:/root/.vscode-server-insiders
     #  - ~/.aws/credentials:/home/jovyan/.aws/credentials
     environment:
-      - MELTANO_ROOT=/projects/my-project
-      - PROJECT_NAME=my-project
+      - MELTANO_ROOT=/projects/meltano-project
+      - PROJECT_NAME=meltano-project
       - PYTHONUNBUFFERED=1
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY

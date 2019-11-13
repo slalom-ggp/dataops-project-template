@@ -28,11 +28,20 @@ WORKDIR $PROJECT_DIR
 RUN $VENV/bin/meltano upgrade && \
     $VENV/bin/meltano discover all
 
-# Capture command history, allows recall if used with `-v ./local-bashhistory:/root/commandhistory`
+# Capture command history, allows recall if used with `-v ./.devcontainer/.bashhist:/root/commandhistory`
 RUN mkdir -p /root/commandhistory && \
     echo "export PROMPT_COMMAND='history -a'" >> "/root/.bashrc" && \
     echo "export HISTFILE=/root/commandhistory/.bash_history" >> "/root/.bashrc"
 
+RUN echo '#!/bin/bash \n\
+echo "Starting boostrap.sh script..." \n\
+source /virtualenvs/meltano/bin/activate \n\
+meltano --version \n\
+echo "Running meltano with provided command args ($@)..." \n\
+$@ \n\
+' > /projects/bootstrap.sh && \
+chmod 777 /projects/bootstrap.sh
+
 # ENTRYPOINT ["$VENV/bin/meltano"]
-ENTRYPOINT ["/virtualenvs/meltano/bin/meltano"]
-CMD ["ui"]
+ENTRYPOINT ["/projects/bootstrap.sh"]
+CMD ["meltano", "ui"]
