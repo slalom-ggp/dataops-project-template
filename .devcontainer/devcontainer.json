@@ -6,7 +6,7 @@
 	// 	"-v", "meltano-bashhistory:/root/commandhistory",
 	// ],
 	"service": "meltano_dev",
-	"workspaceFolder": "/.source/meltano-project/",
+	"workspaceFolder": "/projects",
 	"extensions": [
 		// "atlassian.atlascode", 		// Atlassian Bitbucket and Jira
 		// // Bug in Atlassian extension when run in Remote-Containers:
@@ -16,7 +16,7 @@
 		"redhat.vscode-yaml", // YAML
 	],
 	"name": "meltano-container-dev",
-	// "postCreateCommand": "source /.source/bin/init_dev_env.sh",
+	"postCreateCommand": "echo -e 'Portal for meltano ui: http://localhost:5000'",
 	"settings": {
 		// "python.pythonPath": "/opt/conda/bin/python",
 		// use a distinct theme to indicate we are in a container

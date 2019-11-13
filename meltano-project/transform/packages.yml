@@ -1,0 +1,2 @@
+packages:
+- git: https://gitlab.com/meltano/dbt-tap-salesforce.git
