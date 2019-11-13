@@ -16,10 +16,9 @@
 		"redhat.vscode-yaml", // YAML
 	],
 	"name": "meltano-container-dev",
-	"postCreateCommand": "echo -e 'Portal for meltano ui: http://localhost:5000'",
+	// "postCreateCommand": "echo -e 'Portal for meltano ui: http://localhost:5000'",
 	"settings": {
-		// "python.pythonPath": "/opt/conda/bin/python",
-		// use a distinct theme to indicate we are in a container
-		"workbench.colorTheme": "Visual Studio Dark",
+		"python.pythonPath": "/usr/local/bin/python", 
+		"workbench.colorTheme": "Visual Studio Dark",// use a distinct theme to indicate we are in a container
 	}
 }

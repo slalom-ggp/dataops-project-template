@@ -12,5 +12,13 @@ plugins:
   - name: dbt
     pip_url: dbt
 project_id: 1e30968e-b66a-49ef-b36c-a8d9636f1d62
+schedules:
+- env: {}
+  extractor: tap-salesforce
+  interval: '@once'
+  loader: target-postgres
+  name: pipeline-salesforce-el-test
+  start_date: 2019-11-01 00:00:00
+  transform: skip
 send_anonymous_usage_stats: true
 version: 1
