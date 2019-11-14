@@ -5,10 +5,10 @@
     "tasks": [
         {
             "label": "▶ (1) Configure Dev Environment",
-            "type": "process", // "shell" or "process"
+            "type": "shell", // "shell" or "process"
             "command": ["nano"],
             "windows": {
-                "command": "notepad"
+                "command": "if not exist .env ( echo Creating new .env file from .env.template... && copy .env.template .env ) else ( echo Loading .env... Please edit and save your changes... ) && notepad"
             },
             "args": [".env"],
             "options": {
@@ -67,8 +67,27 @@
                 "cwd": ".",
                 "statusbar": {
                     "color": "#ffffff",
-                    "tooltip": "Click to run bask within the main docker image...",
+                    "tooltip": "Click to run the bash terminal within the main docker image...",
                     "label": ">docker-bash!"
+                }
+            }
+        },
+        {
+            "label": "▶ (4) Launch VS Code in container...",
+            "type": "shell", // "shell" or "process"
+            "command": "code --folder-uri \"vscode-remote://dev-container%2B633a5c46696c65735c536f757263655c646174616f70732d70726f6a6563742d74656d706c617465/projects\"",
+            "group": "build", // "test" for tests
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "options": {
+                "cwd": ".",
+                "statusbar": {
+                    "color": "#ffffff",
+                    "tooltip": "Click to run VS Code within the main docker image...",
+                    "label": ">docker-vscode!"
                 }
             }
         },
