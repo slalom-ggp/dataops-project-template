@@ -37,16 +37,16 @@ RUN echo '#!/bin/bash \n\
 echo "Starting boostrap.sh script..." \n\
 source /virtualenvs/meltano/bin/activate \n\
 meltano --version || true \n\
-if [[ ! -d ".meltano" ]]; then
-    LOG_FILE=$(realpath .meltano-install-log.txt)
-    echo "Folder \'.meltano\' is missing. Beginning Meltano install as background process ($date)..." | tee $LOG_FILE
-    echo "Logging install progress to: $LOG_FILE"
-    echo "View progress with \'jobs -l\' or \'tail -f $LOG_FILE\'
-    nohup sh -c \'meltano upgrade && echo "Install complete $(date)"\' | tee -a $LOG_FILE & \n\
-fi
+if [[ ! -d ".meltano" ]]; then \n\
+    LOG_FILE=.meltano-install-log.txt \n\
+    echo "Folder ''.meltano'' is missing. Beginning Meltano install as background process on `date`..." | tee -a $LOG_FILE \n\
+    echo "Logging install progress to: $LOG_FILE" \n\
+    echo "View progress with ''jobs -l'' or ''tail -f $LOG_FILE''" \n\
+    nohup sh -c ''meltano upgrade && echo -e "Install complete on `date`\n\n"'' | tee -a $LOG_FILE & \n\
+fi \n\
 meltano --version || true \n\
 date \n\
-echo "Running meltano with provided command args ($@)..." \n\
+echo "Running meltano with provided command args: $@..." \n\
 $@ \n\
 ' > /projects/bootstrap.sh && \
 chmod 777 /projects/bootstrap.sh

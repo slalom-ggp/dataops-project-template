@@ -1,16 +1,35 @@
 plugins:
   extractors:
+  - name: tap-carbon-intensity
+    pip_url: git+https://gitlab.com/meltano/tap-carbon-intensity
   - name: tap-salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
+    select:
+    - Account.*
+    - Opportunity.*
+    - OpportunityHistory.*
+    - User.*
+    - Contact.*
+    - Lead.*
   loaders:
   - name: target-postgres
     pip_url: git+https://github.com/meltano/target-postgres.git
+  models:
+  - name: model-carbon-intensity
+    pip_url: git+https://gitlab.com/meltano/model-carbon-intensity.git
+  - name: model-carbon-intensity-sqlite
+    pip_url: git+https://gitlab.com/meltano/model-carbon-intensity-sqlite.git
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.2
   transformers:
   - name: dbt
     pip_url: dbt
+  transforms:
+  - name: tap-salesforce
+    pip_url: https://gitlab.com/meltano/dbt-tap-salesforce.git
+    vars:
+      schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
 project_id: 1e30968e-b66a-49ef-b36c-a8d9636f1d62
 schedules:
 - env: {}
