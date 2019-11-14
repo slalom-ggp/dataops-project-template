@@ -73,7 +73,71 @@
             }
         },
         {
-            "label": "▶ (4) Launch VS Code in container...",
+            "label": "▶ (4) Compile dbt transforms...",
+            "type": "process", // "shell" or "process"
+            "command": "docker",
+            "args": [
+                "run", "-it", 
+                "--env-file", "${workspaceFolder}/meltano-project/.env",
+                "-e", "MELTANO_ROOT=/projects/meltano-project",
+                "-e", "PROJECT_NAME=meltano-project",
+                "-v", "${workspaceFolder}/meltano-project:/projects/meltano-project",
+                "-w", "/projects/meltano-project/transform",
+                "-v", "${workspaceFolder}/.devcontainer/.bashhist:/root/commandhistory",
+                "devcontainer_meltano_dev:latest",
+                "/virtualenvs/dbt/bin/dbt",
+                "compile",
+                "--profiles-dir", "./profile",
+            ],
+            "group": "build", // "test" for tests
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "options": {
+                "cwd": "./meltano-project/transform",
+                "statusbar": {
+                    "color": "#ffffff",
+                    "tooltip": "Click to run `dbt compile` within the main docker image...",
+                    "label": ">dbt-compile!"
+                }
+            }
+        },
+        {
+            "label": "▶ (5) Run dbt transforms...",
+            "type": "process", // "shell" or "process"
+            "command": "docker",
+            "args": [
+                "run", "-it", 
+                "--env-file", "${workspaceFolder}/meltano-project/.env",
+                "-e", "MELTANO_ROOT=/projects/meltano-project",
+                "-e", "PROJECT_NAME=meltano-project",
+                "-v", "${workspaceFolder}/meltano-project:/projects/meltano-project",
+                "-w", "/projects/meltano-project/transform",
+                "-v", "${workspaceFolder}/.devcontainer/.bashhist:/root/commandhistory",
+                "devcontainer_meltano_dev:latest",
+                "/virtualenvs/dbt/bin/dbt",
+                "run",
+                "--profiles-dir", "./profile",
+            ],
+            "group": "build", // "test" for tests
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "options": {
+                "cwd": "./meltano-project/transform",
+                "statusbar": {
+                    "color": "#ffffff",
+                    "tooltip": "Click to run `dbt run` within the main docker image...",
+                    "label": ">dbt-run!"
+                }
+            }
+        },
+        {
+            "label": "▶ (9) Launch VS Code in container...",
             "type": "shell", // "shell" or "process"
             "command": "code --folder-uri \"vscode-remote://dev-container%2B633a5c46696c65735c536f757263655c646174616f70732d70726f6a6563742d74656d706c617465/projects\"",
             "group": "build", // "test" for tests

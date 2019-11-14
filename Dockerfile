@@ -28,6 +28,17 @@ WORKDIR $PROJECT_DIR
 RUN $VENV/bin/meltano upgrade && \
     $VENV/bin/meltano discover all
 
+# Configure DBT for Spark
+
+RUN apt-get update && apt-get install -y python-dev g++ libsasl2-dev
+
+ENV DBTVENV /virtualenvs/dbt
+
+RUN python3 -m venv $DBTVENV && \
+    $DBTVENV/bin/pip3 install dbt && \
+    $DBTVENV/bin/dbt --version
+RUN $DBTVENV/bin/pip3 install pyhive[hive] dbt-spark
+
 # Capture command history, allows recall if used with `-v ./.devcontainer/.bashhist:/root/commandhistory`
 RUN mkdir -p /root/commandhistory && \
     echo "export PROMPT_COMMAND='history -a'" >> "/root/.bashrc" && \

@@ -26,3 +26,14 @@ meltano:
       pass: "{{ env_var('PG_PASSWORD') }}"
       dbname: "{{ env_var('PG_DATABASE') }}"
       schema: "{{ env_var('MELTANO_ANALYZE_SCHEMA', 'analytics') }}"
+
+    # Custom:
+    spark:
+      method: thrift
+      type: spark
+      schema: analytics
+      host: 127.0.0.1
+      port: 10001
+      user: hadoop
+      connect_retries: 5
+      connect_timeout: 60
