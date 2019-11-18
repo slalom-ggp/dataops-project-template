@@ -1,5 +1,7 @@
 plugins:
   extractors:
+  - name: tap-s3-csv
+    pip_url: git+https://github.com/singer-io/tap-s3-csv.git
   - name: tap-carbon-intensity
     pip_url: git+https://gitlab.com/meltano/tap-carbon-intensity
   - name: tap-salesforce
@@ -14,17 +16,18 @@ plugins:
   loaders:
   - name: target-postgres
     pip_url: git+https://github.com/meltano/target-postgres.git
-  models:
-  - name: model-carbon-intensity
-    pip_url: git+https://gitlab.com/meltano/model-carbon-intensity.git
-  - name: model-carbon-intensity-sqlite
-    pip_url: git+https://gitlab.com/meltano/model-carbon-intensity-sqlite.git
+  - name: target-csv
+    pip_url: git+https://github.com/singer-io/target-csv.git
+  - name: target-s3-csv
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-s3-csv.git
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.2
   transformers:
   - name: dbt
     pip_url: dbt
+  - name: dbt-spark
+    pip_url: dbt-spark[hive]
   transforms:
   - name: tap-salesforce
     pip_url: https://gitlab.com/meltano/dbt-tap-salesforce.git
