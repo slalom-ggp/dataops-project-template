@@ -23,7 +23,6 @@ plugins:
         env: TARGET_CSV_DESTINATION_PATH
   - capabilities:
     - catalog
-    - discover
     - state
     executable: target-s3-csv
     name: target-s3-csv
@@ -38,6 +37,10 @@ plugins:
         env: TARGET_S3_CSV_AWS_SECRET_ACCESS_KEY
       - name: s3_bucket
         env: TARGET_S3_CSV_S3_BUCKET
+      - name: s3_key_prefix
+        env: TARGET_S3_CSV_S3_KEY_PREFIX
+      - name: add_metadata_columns
+        value: true
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.2
