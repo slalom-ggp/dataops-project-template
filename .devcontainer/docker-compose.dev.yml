@@ -33,8 +33,17 @@ services:
       POSTGRES_USER: warehouse
     ports:
     - '5502:5432'
-  # spark_db:
-  #   image: slalom-ggp/spark-ds
-  #   container_name: spark
-  #   environment: []
-  #   ports: []
+  spark_db:
+    image: slalomggp/dataops:latest-dev
+    container_name: spark
+    command: "spark start_server"
+    environment:
+      USE_THRIFT_SERVER: "true"
+      METASTORE_TYPE: "MySQL"
+    ports:
+    - "4040:4040"    # App Web UI
+    - "7077:7077"    # Standalone master driver
+    - "8080:8080"    # Standalone-mode master Web UI
+    - "8081:8081"    # Standalone-mode worker Web UI
+    - "10000:10000"  # Thrift JDBC port for SQL queries
+    - "18080:18080"  # History Server Web UI

@@ -30,7 +30,12 @@ RUN $VENV/bin/meltano upgrade && \
 
 # Configure DBT for Spark
 
-RUN apt-get update && apt-get install -y python-dev g++ libsasl2-dev
+RUN apt-get update && apt-get install -y \
+    g++ \
+    libsasl2-2 \
+    libsasl2-dev \
+    libsasl2-modules-gssapi-mit \
+    python-dev
 
 ENV DBTVENV /virtualenvs/dbt
 
