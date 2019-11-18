@@ -1,5 +1,6 @@
 meltano-project/.meltano.bak/analytics.json
 **/.meltano**
+**/dbt.log**
 
 # VS Code cache for containers
 .devcontainer/.vscode**

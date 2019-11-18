@@ -31,9 +31,12 @@ meltano:
     spark:
       method: thrift
       type: spark
-      schema: analytics
-      host: 127.0.0.1
-      port: 10001
+      schema: default
+      host: spark
+      port: 10000
       user: hadoop
       connect_retries: 5
       connect_timeout: 60
+      # host: localhost
+      # schema: analytics
+      # host: 127.0.0.1
