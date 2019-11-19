@@ -1,5 +1,7 @@
 FROM python:3.7
 
+ARG MELTANO_MIN_VERSION=1.16
+
 ENV PROJECTS /projects
 
 RUN mkdir -p /projects && \
@@ -12,7 +14,7 @@ ENV VENV /virtualenvs/meltano
 
 RUN mkdir -p /virtualenvs && \
     python -m venv $VENV && \
-    $VENV/bin/pip3 install meltano && \
+    $VENV/bin/pip3 install 'meltano>=${MELTANO_MIN_VERSION}' && \
     $VENV/bin/meltano --version
 
 ENV PROJECT_NAME demo-project
