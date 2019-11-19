@@ -1,0 +1,14 @@
+{
+	// See http://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
+	// List of extensions which should be recommended for users of this workspace.
+	"recommendations": [
+		"eamodio.gitlens", // Git, Robust VS Code GUI
+		"ms-python.python", // Python
+		"ms-azuretools.vscode-docker", // Docker
+		"redhat.vscode-yaml", // YAML
+		"davehart.quick-run-panel", // Tasks "QUICK RUN" in Explorer Pane
+		"actboy168.tasks", // Task execution from status bar
+	],
+	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
+	"unwantedRecommendations": []
+}

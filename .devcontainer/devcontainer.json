@@ -1,0 +1,26 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+	"dockerComposeFile": "docker-compose.dev.yml",
+	// "runArgs": [
+	// 	"--env-file","devcontainer.env",
+	// 	"-v", "meltano-bashhistory:/root/commandhistory",
+	// ],
+	"service": "meltano_dev",
+	"workspaceFolder": "/projects",
+	"extensions": [
+		"eamodio.gitlens", // Git, Robust VS Code GUI
+		"ms-python.python", // Python
+		"redhat.vscode-yaml", // YAML
+		"mutantdino.resourcemonitor", // CPU & RAM usage
+	],
+	"name": "meltano-container-dev",
+	// "postCreateCommand": "echo -e 'Portal for meltano ui: http://localhost:5000'",
+	"settings": {
+		"python.pythonPath": "/usr/local/bin/python", 
+		"workbench.colorTheme": "Visual Studio Dark",// use a distinct theme to indicate we are in a container
+		"resmon.show.mem": true,
+		"resmon.show.cpuusage": true,
+		"resmon.show.cpufreq": false,
+		"resmon.show.battery": false,
+	}
+}

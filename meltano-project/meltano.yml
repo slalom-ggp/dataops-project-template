@@ -1,0 +1,67 @@
+plugins:
+  extractors:
+  - name: tap-s3-csv
+    pip_url: git+https://github.com/singer-io/tap-s3-csv.git
+  - name: tap-carbon-intensity
+    pip_url: git+https://gitlab.com/meltano/tap-carbon-intensity
+  - name: tap-salesforce
+    pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
+    select:
+    - Account.*
+    - Opportunity.*
+    - OpportunityHistory.*
+    - User.*
+    - Contact.*
+    - Lead.*
+  loaders:
+  - name: target-postgres
+    pip_url: git+https://github.com/meltano/target-postgres.git
+  - name: target-csv
+    pip_url: git+https://github.com/singer-io/target-csv.git
+    settings:
+      - name: destination_path
+        env: TARGET_CSV_DESTINATION_PATH
+  - capabilities:
+    - catalog
+    - state
+    executable: target-s3-csv
+    name: target-s3-csv
+    namespace: target-s3-csv
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-s3-csv.git
+    settings:
+      - name: aws_access_key_id
+        kind: password
+        env: TARGET_S3_CSV_AWS_ACCESS_KEY_ID
+      - name: aws_secret_access_key
+        kind: password
+        env: TARGET_S3_CSV_AWS_SECRET_ACCESS_KEY
+      - name: s3_bucket
+        env: TARGET_S3_CSV_S3_BUCKET
+      - name: s3_key_prefix
+        env: TARGET_S3_CSV_S3_KEY_PREFIX
+      - name: add_metadata_columns
+        value: true
+  orchestrators:
+  - name: airflow
+    pip_url: apache-airflow==1.10.2
+  transformers:
+  - name: dbt
+    pip_url: dbt
+  - name: dbt-spark
+    pip_url: dbt-spark[hive]
+  transforms:
+  - name: tap-salesforce
+    pip_url: https://gitlab.com/meltano/dbt-tap-salesforce.git
+    vars:
+      schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
+project_id: 1e30968e-b66a-49ef-b36c-a8d9636f1d62
+schedules:
+- env: {}
+  extractor: tap-salesforce
+  interval: '@once'
+  loader: target-postgres
+  name: pipeline-salesforce-el-test
+  start_date: 2019-11-01 00:00:00
+  transform: skip
+send_anonymous_usage_stats: true
+version: 1

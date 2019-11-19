@@ -1,0 +1,6 @@
+{
+    "resmon.show.mem": true,
+    "resmon.show.cpuusage": true,
+    "resmon.show.battery": false,
+    "resmon.show.cpufreq": false,
+}
