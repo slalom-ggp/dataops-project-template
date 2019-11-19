@@ -37,6 +37,11 @@ services:
     image: slalomggp/dataops:latest-dev
     container_name: spark
     command: "spark start_server"
+    volumes:
+    - ~/.aws/credentials:/home/.aws/credentials
+    environment:
+    # If reading from S3, this must match the S3 bucket's region:
+    - AWS_DEFAULT_REGION=us-east-2
     ports:
     - "4040:4040"    # App Web UI
     - "7077:7077"    # Standalone master driver
