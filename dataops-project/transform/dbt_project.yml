@@ -15,6 +15,7 @@ models:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
 name: my_meltano_project
 profile: meltano
+profiles-dir: profile
 source-paths:
 - models
 target-path: ../.meltano/transformers/dbt/target
