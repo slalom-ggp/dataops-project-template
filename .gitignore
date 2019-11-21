@@ -1,5 +1,6 @@
 **/.meltano**
 **/dbt.log**
+**/secrets.yml
 
 # VS Code cache for containers
 .devcontainer/.vscode**

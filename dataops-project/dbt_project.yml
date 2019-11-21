@@ -1,0 +1,24 @@
+analysis-paths:
+- reporting/queries
+clean-targets:
+- .cache/.dbt
+data-paths:
+- data/seeds
+macro-paths:
+- scripts/dbt-macros
+models:
+  my_meltano_project:
+    materialized: table
+  tap_salesforce:
+    vars:
+      schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
+name: my_meltano_project
+shortname: meltano
+profile: meltano
+# profiles-dir: profile
+source-paths:
+- data/transforms
+target-path: /.output/dbt
+test-paths:
+- testing/queries
+version: '1.0'
