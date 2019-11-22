@@ -1,19 +1,23 @@
 FROM python:3.7
 
-ARG meltano_version_filter='>=1.6.0'
-# ARG meltano_version_filter=''
+# Set version filters, e.g. '>=0.1.0', '>=1.0,<=2.0'
+# Optionally, use the text 'skip' to skip or '' to use latest version
+ARG dbt_version_filter=''
+ARG meltano_version_filter='skip'
 
 RUN mkdir -p /projects && \
     mkdir -p /.c && \
     mkdir -p /venv
 WORKDIR /projects
 
-
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y -q \
+    build-essential \
+    git \
     g++ \
     libsasl2-2 \
     libsasl2-dev \
     libsasl2-modules-gssapi-mit \
+    libpq-dev \
     python-dev \
     python3-dev \
     python3-pip \
@@ -21,10 +25,12 @@ RUN apt-get update && apt-get install -y \
 
 ENV MELTANOENV /venv/meltano
 ENV MELTANO /venv/meltano/bin/meltano
-RUN python -m venv $MELTANOENV && \
+RUN if [ "$meltano_version_filter" = "skip" ]; then exit 0; fi && \
+    python -m venv $MELTANOENV && \
     $MELTANOENV/bin/pip3 install "meltano$meltano_version_filter" && \
     $MELTANO --version
-RUN $MELTANO --version && \
+RUN if [ "$meltano_version_filter" = "skip" ]; then exit 0; fi && \
+    $MELTANO --version && \
     $MELTANO init sample-meltano-project && \
     cd sample-meltano-project && \
     $MELTANO upgrade && \
@@ -35,7 +41,7 @@ RUN $MELTANO --version && \
 ENV DBTENV /venv/dbt
 ENV DBT /venv/dbt/bin/dbt
 RUN python3 -m venv $DBTENV && \
-    $DBTENV/bin/pip3 install dbt && \
+    $DBTENV/bin/pip3 install "dbt$dbt_version_filter" && \
     $DBT --version
 RUN $DBT init sample-dbt-project && \
     cd sample-dbt-project && \
