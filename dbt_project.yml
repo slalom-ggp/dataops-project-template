@@ -1,12 +1,11 @@
 analysis-paths:
-- analysis
+- reporting/queries
 clean-targets:
-- ../.meltano/transformers/dbt/target
-- dbt_modules
+- .cache/.dbt
 data-paths:
-- data
+- data/seeds
 macro-paths:
-- macros
+- scripts/dbt-macros
 models:
   my_meltano_project:
     materialized: table
@@ -14,10 +13,12 @@ models:
     vars:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
 name: my_meltano_project
+shortname: meltano
 profile: meltano
+# profiles-dir: profile
 source-paths:
-- models
-target-path: ../.meltano/transformers/dbt/target
+- data/transforms
+target-path: /.output/dbt
 test-paths:
-- tests
+- testing/queries
 version: '1.0'

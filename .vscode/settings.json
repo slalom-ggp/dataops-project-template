@@ -1,6 +1,10 @@
 {
+    // Show RAM and CPU stats via 'resource monitor' extension:
     "resmon.show.mem": true,
     "resmon.show.cpuusage": true,
     "resmon.show.battery": false,
     "resmon.show.cpufreq": false,
+    // NOTE: To ensure that tasks ALWAYS run correctly, this
+    //       setting may also be required at the user level:
+    "terminal.integrated.automationShell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
 }

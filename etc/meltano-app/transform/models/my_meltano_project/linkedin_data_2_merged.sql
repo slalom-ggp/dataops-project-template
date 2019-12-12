@@ -24,6 +24,6 @@ SELECT
     , raw.Company
     , raw.Position
     , raw.Connected_On
-    , raw.filename                          AS filepath
-    , reverse(split(raw.filename, '/'))[0]  AS filename
+    , raw.filename                          AS filepath  # 's3://...../AJ Steers.csv'
+    , reverse(split(raw.filename, '/'))[0]  AS filename  # 'AJ Steers.csv'
 FROM linkedin_contacts_raw raw
