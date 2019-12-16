@@ -1,0 +1,20 @@
+name: Automated Build and Test
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+      - name: Clone git repo
+        uses: actions/checkout@v1
+      - name: Build Docker image
+        run: |
+          docker build -t dataops-project .
