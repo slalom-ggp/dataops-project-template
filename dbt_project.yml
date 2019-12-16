@@ -1,3 +1,5 @@
+# shortname: meltano
+# profiles-dir: profile
 analysis-paths:
 - reporting/queries
 clean-targets:
@@ -12,10 +14,8 @@ models:
   tap_salesforce:
     vars:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
-name: my_meltano_project
-shortname: meltano
+name: my_project
 profile: meltano
-# profiles-dir: profile
 source-paths:
 - data/transforms
 target-path: /.output/dbt

@@ -5,32 +5,20 @@ services:
     build:
       context: ..
       args: []
-    user: root
-    working_dir: /projects/dataops-project
-    ports:
-      - "5000:5000"
-      - "5010:5010"
-    volumes:
-      - /c/:/c/
-      - ~/.aws/credentials:/home/.aws/credentials
-      - ../dataops-project:/projects/dataops-project
-      - ..:/projects/.source
-      - ./.vscode-server/:/root/.vscode-server
-      - ./.vscode-server-insiders/:/root/.vscode-server-insiders
-      #  - ~/.aws/credentials:/home/jovyan/.aws/credentials
+    # user: root
+    working_dir: /projects/my-project
     environment:
       - MELTANO_ROOT=/projects/dataops-project
       - PROJECT_NAME=dataops-project
       - PYTHONUNBUFFERED=1
-  spark:
-    container_name: spark
-    image: slalomggp/dataops:latest-dev
-    command: "spark start_server"
     volumes:
+      - ..:/projects/my-project
+      - /c/:/c/
       - ~/.aws/credentials:/home/.aws/credentials
-    environment:
-      # If reading from S3, this must match the S3 bucket's region:
-      - AWS_DEFAULT_REGION=us-east-2
+      - ..:/projects/.source
+      - ./.vscode-server/:/root/.vscode-server
+      - ./.vscode-server-insiders/:/root/.vscode-server-insiders
+      #  - ~/.aws/credentials:/home/jovyan/.aws/credentials
     ports:
       - "4040:4040"    # App Web UI
       - "7077:7077"    # Standalone master driver
@@ -38,13 +26,29 @@ services:
       - "8081:8081"    # Standalone-mode worker Web UI
       - "10000:10000"  # Thrift JDBC port for SQL queries
       - "18080:18080"  # History Server Web UI
-  postgres:
-    container_name: postgres
-    image: postgres:11
-    command: ["-c", "listen_addresses=*"]
-    environment:
-      POSTGRES_DB: warehouse
-      POSTGRES_USER: warehouse
-      POSTGRES_PASSWORD: warehouse
-    ports:
-      - '5502:5432'
+  # spark:
+  #   container_name: spark
+  #   image: slalomggp/dataops:latest-dev
+  #   command: "spark start_server"
+  #   volumes:
+  #     - ~/.aws/credentials:/home/.aws/credentials
+  #   environment:
+  #     # If reading from S3, this must match the S3 bucket's region:
+  #     - AWS_DEFAULT_REGION=us-east-2
+  #   ports:
+  #     - "4040:4040"    # App Web UI
+  #     - "7077:7077"    # Standalone master driver
+  #     - "8080:8080"    # Standalone-mode master Web UI
+  #     - "8081:8081"    # Standalone-mode worker Web UI
+  #     - "10000:10000"  # Thrift JDBC port for SQL queries
+  #     - "18080:18080"  # History Server Web UI
+  # postgres:
+  #   container_name: postgres
+  #   image: postgres:11
+  #   command: ["-c", "listen_addresses=*"]
+  #   environment:
+  #     POSTGRES_DB: warehouse
+  #     POSTGRES_USER: warehouse
+  #     POSTGRES_PASSWORD: warehouse
+  #   ports:
+  #     - '5502:5432'
