@@ -5,7 +5,6 @@
 /venv
 /.meltano
 .env
-data
 
 # VS Code cache for containers
 .devcontainer/.vscode**
