@@ -12,4 +12,4 @@ WORKDIR $PROJECT_DIR
 RUN ls -la
 # RUN dbt compile --profiles-dir etc/dbt-config
 
-ENTRYPOINT ["s-spark", "start_spark", "--with_jupyter"]
+CMD ["spark", "start_spark", "--with_jupyter"]

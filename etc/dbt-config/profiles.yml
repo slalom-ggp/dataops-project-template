@@ -4,7 +4,7 @@
 config:
   send_anonymous_usage_stats: False
   use_colors: True
-meltano:
+spark-local:
   target: spark
   outputs:
     spark:

@@ -1,21 +1,23 @@
 # shortname: meltano
 # profiles-dir: profile
 analysis-paths:
-- reporting/queries
+  - reporting/queries
+  - tests/queries
 clean-targets:
 - .cache/.dbt
 data-paths:
 - data/seeds
-macro-paths:
-- scripts/dbt-macros
+# macro-paths:
+# - scripts/dbt-macros
 models:
-  my_meltano_project:
+  dummy_schema_sample:
+    enabled: true
     materialized: table
-  tap_salesforce:
-    vars:
-      schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
+  linked_in_sample:
+    enabled: false
+    materialized: table
 name: my_project
-profile: meltano
+profile: spark-local
 source-paths:
 - data/transforms
 target-path: /.output/dbt
