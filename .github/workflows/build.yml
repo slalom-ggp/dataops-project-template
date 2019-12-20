@@ -41,7 +41,7 @@ jobs:
           dbt-spark run
           --profiles-dir etc/dbt-config
       - name: Check spark outputs
-        run: |
+        run: >
           docker run --rm ubuntu:18.04
           -v warehouse:/spark_warehouse/data
           -w /spark_warehouse/data
