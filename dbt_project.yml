@@ -10,12 +10,13 @@ data-paths:
 # macro-paths:
 # - scripts/dbt-macros
 models:
-  dummy_schema_sample:
-    enabled: true
-    materialized: table
-  linked_in_sample:
-    enabled: false
-    materialized: table
+  my_project:
+    dummy_schema_sample:
+      enabled: true
+      materialized: table
+    linked_in_sample:
+      enabled: false
+      materialized: table
 name: my_project
 profile: spark-local
 source-paths:
