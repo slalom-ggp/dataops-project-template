@@ -1,14 +1,13 @@
-# shortname: meltano
-# profiles-dir: profile
-analysis-paths:
-  - reporting/queries
-  - tests/queries
-clean-targets:
-- .cache/.dbt
+version: '1.0'
+name: my_project
+profile: spark-local
+target-path: /.output/dbt
 data-paths:
-- data/seeds
-# macro-paths:
-# - scripts/dbt-macros
+  - data/seeds
+clean-targets:
+  - .cache/.dbt
+source-paths:
+  - data/transforms
 models:
   my_project:
     dummy_schema_sample:
@@ -17,11 +16,10 @@ models:
     linked_in_sample:
       enabled: false
       materialized: table
-name: my_project
-profile: spark-local
-source-paths:
-- data/transforms
-target-path: /.output/dbt
 test-paths:
-- testing/queries
-version: '1.0'
+  - testing/queries
+analysis-paths:
+  - reporting/queries
+  - tests/queries
+# macro-paths:
+# - scripts/dbt-macros
