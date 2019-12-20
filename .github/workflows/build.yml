@@ -18,3 +18,19 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t dataops-project .
+      - name: Compile DBT project
+        run: |
+          docker run --rm \
+          -v .:/projects/my-project \
+          -w /projects/my-project \
+          dataops-project \
+          dbt-spark compile \
+          --profiles-dir etc/dbt-config
+      - name: Run DBT project
+        run: |
+          docker run --rm \
+          -v .:/projects/my-project \
+          -w /projects/my-project \
+          dataops-project \
+          dbt-spark run \
+          --profiles-dir etc/dbt-config
