@@ -21,26 +21,26 @@ jobs:
       - name: Compile DBT project
         env:
           SPARK_WAREHOUSE_DIR: /spark_warehouse
-        run: |
-          docker run --rm \
-          -v $(cwd):/projects/my-project \
+        run: >
+          docker run --rm
+          -v $(cwd):/projects/my-project
           -v $(cwd)/../spark/warehouse:/spark_warehouse
           -v $(cwd)/../spark/metastore:/var/lib/mysql
-          -w /projects/my-project \
-          dataops-project \
-          dbt-spark compile \
+          -w /projects/my-project
+          dataops-project
+          dbt-spark compile
           --profiles-dir etc/dbt-config
       - name: Run DBT project
         env:
           SPARK_WAREHOUSE_DIR: /spark_warehouse
-        run: |
-          docker run --rm \
-          -v $(cwd):/projects/my-project \
+        run: >
+          docker run --rm
+          -v $(cwd):/projects/my-project
           -v $(cwd)/../spark/warehouse:/spark_warehouse
           -v $(cwd)/../spark/metastore:/var/lib/mysql
-          -w /projects/my-project \
-          dataops-project \
-          dbt-spark run \
+          -w /projects/my-project
+          dataops-project
+          dbt-spark run
           --profiles-dir etc/dbt-config
       - name: Check spark outputs
         run: |
