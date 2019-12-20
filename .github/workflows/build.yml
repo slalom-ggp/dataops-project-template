@@ -43,6 +43,6 @@ jobs:
       - name: Check spark outputs
         run: >
           docker run --rm ubuntu:18.04
-          -v warehouse:/spark_warehouse/data
+          -v warehouse:/spark_warehouse
           -w /spark_warehouse/data
           du -a .
