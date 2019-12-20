@@ -5,20 +5,29 @@ services:
     build:
       context: ..
       args: []
-    # user: root
     working_dir: /projects/my-project
+    command: spark start_server --with_jupyter
     environment:
-      - MELTANO_ROOT=/projects/dataops-project
       - PROJECT_NAME=dataops-project
+      - SPARK_WAREHOUSE_DIR=/spark_warehouse
       - PYTHONUNBUFFERED=1
     volumes:
-      - ..:/projects/my-project
-      - /c/:/c/
+      # - ..:/projects/my-project
+      # - ..:/projects/.source
+      # - /c/:/c/
       - ~/.aws/credentials:/home/.aws/credentials
-      - ..:/projects/.source
       - ./.vscode-server/:/root/.vscode-server
       - ./.vscode-server-insiders/:/root/.vscode-server-insiders
-      #  - ~/.aws/credentials:/home/jovyan/.aws/credentials
+      - ../data:/projects/my-project/data
+      - ../etc:/projects/my-project/etc
+      - ../infra:/projects/my-project/infra
+      - ../reporting:/projects/my-project/reporting
+      - ../scripts:/projects/my-project/scripts
+      - ../tests:/projects/my-project/tests
+      # - spark_wh:/spark_warehouse
+      # - metastore_db:/var/lib/mysql
+      - ../.output/spark/warehouse:/spark_warehouse
+      - ../.output/spark/metastore:/var/lib/mysql
     ports:
       - "4040:4040"    # App Web UI
       - "7077:7077"    # Standalone master driver
