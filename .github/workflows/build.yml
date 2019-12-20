@@ -23,7 +23,7 @@ jobs:
           SPARK_WAREHOUSE_DIR: /spark_warehouse
         run: >
           docker run --rm
-          -v $(cwd):/projects/my-project
+          -v $(pwd):/projects/my-project
           -v warehouse:/spark_warehouse
           -w /projects/my-project
           dataops-project
@@ -34,7 +34,7 @@ jobs:
           SPARK_WAREHOUSE_DIR: /spark_warehouse
         run: >
           docker run --rm
-          -v $(cwd):/projects/my-project
+          -v $(pwd):/projects/my-project
           -v warehouse:/spark_warehouse
           -w /projects/my-project
           dataops-project
