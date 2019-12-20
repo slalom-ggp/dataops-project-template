@@ -21,7 +21,7 @@ jobs:
       - name: Compile DBT project
         run: |
           docker run --rm \
-          -v .:/projects/my-project \
+          -v $(cwd):/projects/my-project \
           -w /projects/my-project \
           dataops-project \
           dbt-spark compile \
@@ -29,7 +29,7 @@ jobs:
       - name: Run DBT project
         run: |
           docker run --rm \
-          -v .:/projects/my-project \
+          -v $(cwd):/projects/my-project \
           -w /projects/my-project \
           dataops-project \
           dbt-spark run \
