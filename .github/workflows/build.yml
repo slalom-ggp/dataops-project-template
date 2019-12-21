@@ -46,4 +46,4 @@ jobs:
           -v warehouse:/spark_warehouse
           -w /spark_warehouse/data
           ubuntu:18.04
-          ls -lah
+          ls -lah /spark_warehouse/data
