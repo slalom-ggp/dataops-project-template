@@ -1,3 +1,4 @@
+.secrets
 **/.meltano**
 **/dbt.log**
 **/secrets.yml
