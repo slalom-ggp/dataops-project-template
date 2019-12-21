@@ -9,11 +9,11 @@ services:
     command: spark start_server --with_jupyter
     environment:
       - PROJECT_NAME=dataops-project
-      - SPARK_WAREHOUSE_DIR=/spark_warehouse
       - PYTHONUNBUFFERED=1
+      # - SPARK_WAREHOUSE_DIR=/spark_warehouse
     volumes:
-      # - ..:/projects/my-project
-      # - ..:/projects/.source
+      - ..:/projects/my-project
+      - ..:/projects/.source
       # - /c/:/c/
       - ~/.aws/credentials:/home/.aws/credentials
       - ./.vscode-server/:/root/.vscode-server
@@ -24,7 +24,7 @@ services:
       - ../reporting:/projects/my-project/reporting
       - ../scripts:/projects/my-project/scripts
       - ../tests:/projects/my-project/tests
-      - warehouse:/spark_warehouse
+      # - warehouse:/spark_warehouse
       # - ../.output/spark:/spark_warehouse  # MySQL fails if dir mapped directly
     ports:
       - "4040:4040"    # App Web UI
