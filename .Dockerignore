@@ -1,3 +1,4 @@
-# Ignore all. Repo files will be loaded via volumes. No file context needed.
-
-**
+.devcontainer/.vscode-server
+.devcontainer/.vscode-server-insiders
+.Dockerignore
+.git*

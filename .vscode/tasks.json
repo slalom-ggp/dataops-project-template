@@ -52,7 +52,6 @@
             "args": [
                 "run", "-it", 
                 "--env-file", "${workspaceFolder}/dataops-project/.env",
-                "-e", "MELTANO_ROOT=/projects/dataops-project",
                 "-e", "PROJECT_NAME=dataops-project",
                 "-v", "${workspaceFolder}/dataops-project:/projects/dataops-project",
                 "-w", "/projects/dataops-project",
@@ -100,7 +99,6 @@
             "args": [
                 "run", "-it", 
                 "--env-file", "${workspaceFolder}/dataops-project/.env",
-                "-e", "MELTANO_ROOT=/projects/dataops-project",
                 "-e", "PROJECT_NAME=dataops-project",
                 "-v", "${workspaceFolder}/dataops-project:/projects/dataops-project",
                 "-w", "/projects/dataops-project/transform",
@@ -132,7 +130,6 @@
             "args": [
                 "run", "-it", 
                 "--env-file", "${workspaceFolder}/dataops-project/.env",
-                "-e", "MELTANO_ROOT=/projects/dataops-project",
                 "-e", "PROJECT_NAME=dataops-project",
                 "-v", "${workspaceFolder}/.devcontainer/.bashhist:/root/.bash_history",
                 "-v", "${workspaceFolder}/dataops-project:/projects/dataops-project",
