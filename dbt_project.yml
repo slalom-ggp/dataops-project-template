@@ -1,7 +1,7 @@
 version: '1.0'
 name: my_project
 profile: spark-local
-target-path: /.output/dbt
+target-path: .output/dbt
 data-paths:
   - data/seeds
 clean-targets:

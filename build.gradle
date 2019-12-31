@@ -1,0 +1,98 @@
+import org.apache.tools.ant.taskdefs.condition.Os       
+
+plugins {
+    id "base"
+}
+
+private static Iterable<String> osAdaptiveCommand(String... commands) {
+    def newCommands = []
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        newCommands = ['cmd', '/c']
+    }
+    newCommands.addAll(commands)
+    newCommands.addAll([])
+    return newCommands
+}
+
+private Iterable<String> dbtCommand(String... commands) {
+    def newCommands = []
+    def addlArgs = []
+    newCommands = [
+        "docker", "run",
+        "-e", "PROJECT_NAME=dataops-project",
+        "-v", "${projectDir}:/projects/dataops-project",
+        "-w", "/projects/dataops-project/transform",
+        "-v", "${projectDir}/.devcontainer/.bashhist:/root/.bash_history",
+        "slalomggp/dataops:latest-dev",
+        "dbt-spark"
+    ]
+    newCommands.addAll(commands)
+    addlArgs = ["--profiles-dir", "./etc/dbt-config"]
+    newCommands.addAll(addlArgs)
+    return newCommands
+}
+
+task zip(type: Zip, description: "Archive project definition as a zip") {
+    from "data"
+    setArchiveFileName "project.zip"
+}
+
+task dockerDestroy(type:Exec) {
+    workingDir '.'
+    commandLine osAdaptiveCommand("docker-compose\
+        --project-name dataops-project-template_devcontainer\
+        -f .devcontainer/docker-compose.dev.yml\
+        down --remove-orphans")
+}
+
+task dockerBuild(type:Exec) {
+    workingDir '.'
+    commandLine osAdaptiveCommand("docker-compose\
+        --project-name dataops-project-template_devcontainer\
+        -f .devcontainer/docker-compose.dev.yml\
+        build")
+}
+
+task dockerRebuild(type:Exec) {
+    workingDir '.'
+    commandLine osAdaptiveCommand("docker-compose\
+        --project-name dataops-project-template_devcontainer\
+        -f .devcontainer/docker-compose.dev.yml\
+        build")
+}
+
+task dockerUp(type:Exec) {
+    workingDir '.'
+    commandLine osAdaptiveCommand("docker-compose\
+        --project-name dataops-project-template_devcontainer\
+        -f .devcontainer/docker-compose.dev.yml\
+        up")
+}
+
+task dockerFreshUp(type:Exec) {
+    workingDir '.'
+    commandLine osAdaptiveCommand("docker-compose\
+        --project-name dataops-project-template_devcontainer\
+        -f .devcontainer/docker-compose.dev.yml\
+        up")
+}
+
+task dbtCompile(type:Exec) {
+    workingDir '.'
+    commandLine dbtCommand("compile")
+}
+
+task dbtRun(type:Exec) {
+    workingDir '.'
+    commandLine dbtCommand("run")
+}
+
+task dbtDocs(type:Exec) {
+    workingDir '.'
+    commandLine dbtCommand("docs generate")
+}
+
+dockerUp.dependsOn dockerBuild
+dockerRebuild.dependsOn dockerDestroy
+dockerFreshUp.dependsOn dockerRebuild
+dbtRun.dependsOn dbtCompile
