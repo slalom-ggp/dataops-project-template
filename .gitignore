@@ -1,3 +1,4 @@
+.gradle
 .secrets
 **/.meltano**
 **/dbt.log**
