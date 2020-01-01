@@ -18,7 +18,7 @@ jobs:
       - name: Fix permissions
         run: |
           chmod 777 ./gradlew
-          la -la
+          ls -la
       - name: Build Docker image
         run: ./gradlew dockerCompose --stacktrace --info
       - name: Compile DBT project
