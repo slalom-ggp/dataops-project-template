@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Clone git repo
         uses: actions/checkout@v1
+      - name: Fix permissions
+        run: chmod 777 ./gradelw
       - name: Build Docker image
         run: ./gradlew dockerCompose
       - name: Compile DBT project
