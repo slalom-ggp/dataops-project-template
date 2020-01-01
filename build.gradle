@@ -45,7 +45,7 @@ task dockerDestroy(type:Exec) {
         down --remove-orphans")
 }
 
-task dockerBuild(type:Exec) {
+task dockerCompose(type:Exec) {
     workingDir '.'
     commandLine osAdaptiveCommand("docker-compose\
         --project-name dataops-project-template_devcontainer\
@@ -53,7 +53,7 @@ task dockerBuild(type:Exec) {
         build")
 }
 
-task dockerRebuild(type:Exec) {
+task dockerComposeFresh(type:Exec) {
     workingDir '.'
     commandLine osAdaptiveCommand("docker-compose\
         --project-name dataops-project-template_devcontainer\
@@ -87,12 +87,28 @@ task dbtRun(type:Exec) {
     commandLine dbtCommand("run")
 }
 
+task dbtSeed(type:Exec) {
+    workingDir '.'
+    commandLine dbtCommand("seed")
+}
+
+task dbtTest(type:Exec) {
+    workingDir '.'
+    commandLine dbtCommand("test")
+}
+
+task dbtHelp(type:Exec) {
+    workingDir '.'
+    commandLine dbtCommand("--help")
+}
+
 task dbtDocs(type:Exec) {
     workingDir '.'
     commandLine dbtCommand("docs generate")
 }
 
-dockerUp.dependsOn dockerBuild
-dockerRebuild.dependsOn dockerDestroy
-dockerFreshUp.dependsOn dockerRebuild
+dockerUp.dependsOn dockerCompose
+dockerComposeFresh.dependsOn dockerDestroy
+dockerFreshUp.dependsOn dockerComposeFresh
+
 dbtRun.dependsOn dbtCompile

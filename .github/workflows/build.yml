@@ -16,30 +16,15 @@ jobs:
       - name: Clone git repo
         uses: actions/checkout@v1
       - name: Build Docker image
-        run: |
-          docker build -t dataops-project .
+        run: ./gradelw dockerCompose
       - name: Compile DBT project
-        env:
-          SPARK_WAREHOUSE_DIR: /spark_warehouse
-        run: >
-          docker run --rm
-          -v $(pwd):/projects/my-project
-          -v warehouse:/spark_warehouse
-          -w /projects/my-project
-          dataops-project
-          dbt-spark compile
-          --profiles-dir etc/dbt-config
+        run: ./gradelw dbtCompile
       - name: Run DBT project
-        env:
-          SPARK_WAREHOUSE_DIR: /spark_warehouse
-        run: >
-          docker run --rm
-          -v $(pwd):/projects/my-project
-          -v warehouse:/spark_warehouse
-          -w /projects/my-project
-          dataops-project
-          dbt-spark run
-          --profiles-dir etc/dbt-config
+        run: ./gradelw dbtRun
+      - name: Run DBT project tests
+        run: ./gradelw dbtTest
+      - name: Build DBT Project Docs
+        run: ./gradelw dbtDocs
       - name: Check spark outputs
         run: >
           docker run --rm
