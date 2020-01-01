@@ -16,15 +16,15 @@ jobs:
       - name: Clone git repo
         uses: actions/checkout@v1
       - name: Build Docker image
-        run: ./gradelw dockerCompose
+        run: ./gradlew dockerCompose
       - name: Compile DBT project
-        run: ./gradelw dbtCompile
+        run: ./gradlew dbtCompile
       - name: Run DBT project
-        run: ./gradelw dbtRun
+        run: ./gradlew dbtRun
       - name: Run DBT project tests
-        run: ./gradelw dbtTest
+        run: ./gradlew dbtTest
       - name: Build DBT Project Docs
-        run: ./gradelw dbtDocs
+        run: ./gradlew dbtDocs
       - name: Check spark outputs
         run: >
           docker run --rm
