@@ -18,9 +18,28 @@ private Iterable<String> dbtCommand(String... commands) {
     def newCommands = []
     def addlArgs = []
     newCommands = [
-        "docker", "run",
+        "docker", "run", "--rm",
         "-e", "PROJECT_NAME=dataops-project",
         "-v", "${projectDir}:/projects/dataops-project",
+        "-w", "/projects/dataops-project/transform",
+        "-v", "${projectDir}/.devcontainer/.bashhist:/root/.bash_history",
+        "slalomggp/dataops:latest-dev",
+        "dbt-spark"
+    ]
+    newCommands.addAll(commands)
+    addlArgs = ["--profiles-dir", "./etc/dbt-config"]
+    newCommands.addAll(addlArgs)
+    return newCommands
+}
+
+private Iterable<String> dbtCommandWith8081(String... commands) {
+    def newCommands = []
+    def addlArgs = []
+    newCommands = [
+        "docker", "run", "--rm",
+        "-e", "PROJECT_NAME=dataops-project",
+        "-v", "${projectDir}:/projects/dataops-project",
+        "-p", "8081:8081",
         "-w", "/projects/dataops-project/transform",
         "-v", "${projectDir}/.devcontainer/.bashhist:/root/.bash_history",
         "slalomggp/dataops:latest-dev",
@@ -115,6 +134,11 @@ task dbtHelp(type:Exec) {
 task dbtDocs(type:Exec) {
     workingDir  = '.'
     commandLine = dbtCommand("docs generate")
+}
+
+task dbtDocsServe(type:Exec) {
+    workingDir  = '.'
+    commandLine = dbtCommandWith8081("docs serve --port 8081")
 }
 
 dockerUp.dependsOn(dockerCompose)
