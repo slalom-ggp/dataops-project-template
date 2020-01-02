@@ -38,7 +38,7 @@ task zip(type: Zip, description: "Archive project definition as a zip") {
 }
 
 task dockerDestroy(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = osAdaptiveCommand(
         "docker-compose\
         --project-name dataops-project-template_devcontainer\
@@ -48,7 +48,7 @@ task dockerDestroy(type:Exec) {
 }
 
 task dockerCompose(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = osAdaptiveCommand(
         "docker-compose\
         --project-name dataops-project-template_devcontainer\
@@ -58,7 +58,7 @@ task dockerCompose(type:Exec) {
 }
 
 task dockerComposeFresh(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = osAdaptiveCommand(
         "docker-compose\
         --project-name dataops-project-template_devcontainer\
@@ -68,7 +68,7 @@ task dockerComposeFresh(type:Exec) {
 }
 
 task dockerUp(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = osAdaptiveCommand(
         "docker-compose\
         --project-name dataops-project-template_devcontainer\
@@ -78,7 +78,7 @@ task dockerUp(type:Exec) {
 }
 
 task dockerFreshUp(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = osAdaptiveCommand(
         "docker-compose\
         --project-name dataops-project-template_devcontainer\
@@ -88,32 +88,32 @@ task dockerFreshUp(type:Exec) {
 }
 
 task dbtCompile(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = dbtCommand("compile")
 }
 
 task dbtRun(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = dbtCommand("run")
 }
 
 task dbtSeed(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = dbtCommand("seed")
 }
 
 task dbtTest(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = dbtCommand("test")
 }
 
 task dbtHelp(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = dbtCommand("--help")
 }
 
 task dbtDocs(type:Exec) {
-    workingDir = '.'
+    workingDir  = '.'
     commandLine = dbtCommand("docs generate")
 }
 
