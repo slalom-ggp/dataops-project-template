@@ -146,3 +146,4 @@ dockerComposeFresh.dependsOn(dockerDestroy)
 dockerFreshUp.dependsOn(dockerComposeFresh)
 
 dbtRun.dependsOn(dbtCompile)
+dbtDocsServe.dependsOn(dbtDocs)
