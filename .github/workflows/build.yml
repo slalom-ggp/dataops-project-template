@@ -27,7 +27,7 @@ jobs:
       - name: Build Docker image
         # run: docker-compose --project-name dataops-project-template_devcontainer -f .devcontainer/docker-compose.dev.yml build
         run: ./gradlew dockerCompose --stacktrace --info
-      - name: Compile DBT project
+      - name: Compile SQL transforms
         run: ./gradlew dbtCompile
       - name: Load seed files
         run: ./gradlew dbtSeed
