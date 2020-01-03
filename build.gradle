@@ -59,50 +59,50 @@ task zip(type: Zip, description: "Archive project definition as a zip") {
 task dockerDestroy(type:Exec) {
     workingDir  = '.'
     commandLine = osAdaptiveCommand(
-        "docker-compose\
-        --project-name dataops-project-template_devcontainer\
-        -f .devcontainer/docker-compose.dev.yml\
-        down --remove-orphans"
+        "docker-compose",
+        "--project-name", "dataops-project-template_devcontainer",
+        "-f", ".devcontainer/docker-compose.dev.yml",
+        "down", "--remove-orphans"
     )
 }
 
 task dockerCompose(type:Exec) {
     workingDir  = '.'
     commandLine = osAdaptiveCommand(
-        "docker-compose\
-        --project-name dataops-project-template_devcontainer\
-        -f .devcontainer/docker-compose.dev.yml\
-        build"
+        "docker-compose",
+        "--project-name", "dataops-project-template_devcontainer",
+        "-f", ".devcontainer/docker-compose.dev.yml",
+        "build"
     )
 }
 
 task dockerComposeFresh(type:Exec) {
     workingDir  = '.'
     commandLine = osAdaptiveCommand(
-        "docker-compose\
-        --project-name dataops-project-template_devcontainer\
-        -f .devcontainer/docker-compose.dev.yml\
-        build"
+        "docker-compose",
+        "--project-name", "dataops-project-template_devcontainer",
+        "-f", ".devcontainer/docker-compose.dev.yml",
+        "build"
     )
 }
 
 task dockerUp(type:Exec) {
     workingDir  = '.'
     commandLine = osAdaptiveCommand(
-        "docker-compose\
-        --project-name dataops-project-template_devcontainer\
-        -f .devcontainer/docker-compose.dev.yml\
-        up"
+        "docker-compose",
+        "--project-name", "dataops-project-template_devcontainer",
+        "-f", ".devcontainer/docker-compose.dev.yml",
+        "up"
     )
 }
 
 task dockerFreshUp(type:Exec) {
     workingDir  = '.'
     commandLine = osAdaptiveCommand(
-        "docker-compose\
-        --project-name dataops-project-template_devcontainer\
-        -f .devcontainer/docker-compose.dev.yml\
-        up"
+        "docker-compose",
+        "--project-name", "dataops-project-template_devcontainer",
+        "-f", ".devcontainer/docker-compose.dev.yml",
+        "up"
     )
 }
 
@@ -133,12 +133,12 @@ task dbtHelp(type:Exec) {
 
 task dbtDocs(type:Exec) {
     workingDir  = '.'
-    commandLine = dbtCommand("docs generate")
+    commandLine = dbtCommand("docs", "generate")
 }
 
 task dbtDocsServe(type:Exec) {
     workingDir  = '.'
-    commandLine = dbtCommandWith8081("docs serve --port 8081")
+    commandLine = dbtCommandWith8081("docs", "serve", "--port", "8081")
 }
 
 dockerUp.dependsOn(dockerCompose)

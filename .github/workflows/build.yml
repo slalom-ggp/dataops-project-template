@@ -25,7 +25,7 @@ jobs:
           pip3 install docker-compose
           docker-compose --version
       - name: Build Docker image
-        # run: docker-compose        --project-name dataops-project-template_devcontainer        -f .devcontainer/docker-compose.dev.yml        build
+        # run: docker-compose --project-name dataops-project-template_devcontainer -f .devcontainer/docker-compose.dev.yml build
         run: ./gradlew dockerCompose --stacktrace --info
       - name: Compile DBT project
         run: ./gradlew dbtCompile
