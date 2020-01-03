@@ -1,9 +1,9 @@
 version: '1.0'
+
 name: my_project
 profile: spark-local
-target-path: .output/dbt
-clean-targets:
-  - .output/dbt
+
+# 1. Seed Data (raw CSV files):
 data-paths:
   - data/seeds
 seeds:
@@ -12,6 +12,8 @@ seeds:
       enabled: true
       column_types:
         integer: bigint
+
+# 2. Model Files (SQL transforms and YAML configs):
 source-paths:
   - data/transforms
 models:
@@ -22,10 +24,17 @@ models:
     linked_in_sample:
       enabled: false
       materialized: table
+
+# 3. SQL Tests (queries that expect zero results)
 test-paths:
-  - testing/queries
+  - tests/queries
+
+# 4. Downstream Analyses (queries should compile but won't be executed)
 analysis-paths:
   - reporting/queries
   - tests/queries
-# macro-paths:
-# - scripts/dbt-macros
+
+# 5. Output Directory (for compilation and build results)
+target-path: .output/dbt
+clean-targets:
+  - .output/dbt
