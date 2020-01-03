@@ -118,7 +118,7 @@ task dbtRun(type:Exec) {
 
 task dbtSeed(type:Exec) {
     workingDir  = '.'
-    commandLine = dbtCommand("seed")
+    commandLine = dbtCommand("seed", "--show")
 }
 
 task dbtTest(type:Exec) {
