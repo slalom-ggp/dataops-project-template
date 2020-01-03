@@ -21,7 +21,7 @@ jobs:
           pwd && ls -la
       - name: Install prereqs
         run: |
-          pip3 install setuptools
+          apt-get install -y python3-setuptools
           pip3 install docker-compose
       - name: Build Docker image
         # run: docker-compose        --project-name dataops-project-template_devcontainer        -f .devcontainer/docker-compose.dev.yml        build
