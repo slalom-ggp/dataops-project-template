@@ -2,10 +2,16 @@ version: '1.0'
 name: my_project
 profile: spark-local
 target-path: .output/dbt
+clean-targets:
+  - .output/dbt
 data-paths:
   - data/seeds
-clean-targets:
-  - .cache/.dbt
+seeds:
+  my_project:
+    list_integers:
+      enabled: true
+      column_types:
+        integer: bigint
 source-paths:
   - data/transforms
 models:
