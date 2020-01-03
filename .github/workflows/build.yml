@@ -26,15 +26,15 @@ jobs:
           docker-compose --version
       - name: Build Docker image
         run: ./gradlew dockerCompose --stacktrace --info
-      - name: Compile SQL transforms
+      - name: Compile SQL transforms (dbt compile)
         run: ./gradlew dbtCompile
-      - name: Load seed files
+      - name: Load seed files (dbt seed)
         run: ./gradlew dbtSeed
-      - name: Run SQL transforms
+      - name: Run SQL transforms (dbt run)
         run: ./gradlew dbtRun
-      - name: Run tests
+      - name: Run tests (dbt test)
         run: ./gradlew dbtTest
-      - name: Generate data dictionary docs
+      - name: Generate data dictionary docs (dbt docs generate)
         run: ./gradlew dbtDocs
       - uses: actions/upload-artifact@master
         if: always()
@@ -48,3 +48,56 @@ jobs:
           -w /spark_warehouse/data
           ubuntu:18.04
           ls -lah /spark_warehouse/data
+
+  run_all_as_one_liner:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+      - name: Clone git repo
+        uses: actions/checkout@v1
+      - name: Fix permissions
+        run: |
+          chmod 777 ./gradlew
+          pwd && ls -la
+      - name: Build Docker image
+        run: ./gradlew dockerCompose --stacktrace --info
+      - name: Execute 'runAll' build step
+        run: ./gradlew runAll
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: dbt-logs
+          path: ./logs
+      - name: Check spark outputs
+        run: >
+          docker run --rm
+          -v warehouse:/spark_warehouse
+          -w /spark_warehouse/data
+          ubuntu:18.04
+          ls -lah /spark_warehouse/data
+
+  generate_docs:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+      - name: Clone git repo
+        uses: actions/checkout@v1
+      - name: Fix permissions
+        run: |
+          chmod 777 ./gradlew
+          pwd && ls -la
+      - name: Build Docker image
+        run: ./gradlew dockerCompose --stacktrace --info
+      - name: Generate data dictionary docs (dbt docs generate)
+        run: ./gradlew dbtDocs
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: docs-output
+          path: ./.output/dbt

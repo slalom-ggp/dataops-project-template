@@ -4,6 +4,11 @@ plugins {
     id("base")
 }
 
+buildDir = "${projectDir}/.output"
+private static String buildTimestamp() {
+    return new Date().format('yyyyMMddHHmmss')
+}
+
 private static Iterable<String> osAdaptiveCommand(String... commands) {
     def newCommands = []
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
@@ -20,9 +25,11 @@ private Iterable<String> dbtCommand(String... commands) {
     newCommands = [
         "docker", "run", "--rm",
         "-e", "PROJECT_NAME=dataops-project",
+        "-e", "SPARK_WAREHOUSE_DIR=/spark_warehouse",
         "-v", "${projectDir}:/projects/dataops-project",
         "-w", "/projects/dataops-project/transform",
         "-v", "${projectDir}/.devcontainer/.bashhist:/root/.bash_history",
+        "-v", "warehouse:/spark_warehouse",
         "slalomggp/dataops:latest-dev",
         "dbt-spark"
     ]
@@ -56,7 +63,7 @@ task zip(type: Zip, description: "Archive project definition as a zip") {
     setArchiveFileName("project.zip")
 }
 
-task dockerDestroy(type:Exec) {
+task dockerDestroyContainers(type:Exec) {
     workingDir  = '.'
     commandLine = osAdaptiveCommand(
         "docker-compose",
@@ -64,6 +71,48 @@ task dockerDestroy(type:Exec) {
         "-f", ".devcontainer/docker-compose.dev.yml",
         "down", "--remove-orphans"
     )
+}
+
+task dockerDestroyVolume(type:Exec) {
+    commandLine = osAdaptiveCommand(
+        "docker", "volume", "rm", "warehouse",
+    )
+}
+
+task dockerVolumeLs(type:Exec) {
+    commandLine = osAdaptiveCommand(
+        "docker", "run", "--rm",
+        "-v", "warehouse:/spark_warehouse", 
+        "busybox", "ls", "/spark_warehouse", "-la",
+    )
+    doFirst {
+        String filePath = "${buildDir}/spark/spark-dw-${buildTimestamp()}-list.txt"
+        mkdir("${buildDir}/spark")
+        standardOutput = new FileOutputStream(filePath)
+    }
+    // doLast {
+    //     String filePath = "${buildDir}/spark/spark-dw-${buildTimestamp}-list.txt"
+    //     String fileContents = new File(filePath).getText('UTF-8')
+    //     println(fileContents)
+    // }
+}
+
+task dockerVolumeExport(type:Exec) {
+    dependsOn(dockerVolumeLs)
+    commandLine = osAdaptiveCommand(
+        "docker", "run", "--rm",
+        "-v", "warehouse:/spark_warehouse",
+        "-w", "/",
+        "busybox", "tar", "-cOzf", "-", "spark_warehouse",
+    )
+    doFirst {
+        mkdir("${buildDir}/spark")
+        standardOutput = new FileOutputStream("${buildDir}/spark/spark-dw-${buildTimestamp()}-bak.tgz")
+    }
+}
+
+task dockerDestroyAll() {
+    dependsOn(dockerDestroyContainers, dockerDestroyVolume)
 }
 
 task dockerCompose(type:Exec) {
@@ -76,17 +125,12 @@ task dockerCompose(type:Exec) {
     )
 }
 
-task dockerComposeFresh(type:Exec) {
-    workingDir  = '.'
-    commandLine = osAdaptiveCommand(
-        "docker-compose",
-        "--project-name", "dataops-project-template_devcontainer",
-        "-f", ".devcontainer/docker-compose.dev.yml",
-        "build"
-    )
+task dockerComposeFresh() {
+    dependsOn(dockerDestroyAll, dockerCompose)
 }
 
 task dockerUp(type:Exec) {
+    dependsOn(dockerCompose)
     workingDir  = '.'
     commandLine = osAdaptiveCommand(
         "docker-compose",
@@ -96,32 +140,33 @@ task dockerUp(type:Exec) {
     )
 }
 
-task dockerFreshUp(type:Exec) {
-    workingDir  = '.'
-    commandLine = osAdaptiveCommand(
-        "docker-compose",
-        "--project-name", "dataops-project-template_devcontainer",
-        "-f", ".devcontainer/docker-compose.dev.yml",
-        "up"
-    )
+task dockerFreshUp() {
+    dependsOn(dockerComposeFresh, dockerUp)
 }
 
 task dbtCompile(type:Exec) {
     workingDir  = '.'
     commandLine = dbtCommand("compile")
-}
-
-task dbtRun(type:Exec) {
-    workingDir  = '.'
-    commandLine = dbtCommand("run")
+    doFirst {
+        mkdir ".output/dbt"
+    }
 }
 
 task dbtSeed(type:Exec) {
+    mustRunAfter(dbtCompile)
     workingDir  = '.'
     commandLine = dbtCommand("seed", "--show")
 }
 
+task dbtRun(type:Exec) {
+    dependsOn(dbtCompile)
+    mustRunAfter(dbtCompile, dbtSeed)
+    workingDir  = '.'
+    commandLine = dbtCommand("run")
+}
+
 task dbtTest(type:Exec) {
+    mustRunAfter(dbtSeed, dbtRun, dbtCompile)
     workingDir  = '.'
     commandLine = dbtCommand("test")
 }
@@ -137,13 +182,32 @@ task dbtDocs(type:Exec) {
 }
 
 task dbtDocsServe(type:Exec) {
+    dependsOn(dbtDocs)
     workingDir  = '.'
     commandLine = dbtCommandWith8081("docs", "serve", "--port", "8081")
 }
 
-dockerUp.dependsOn(dockerCompose)
-dockerComposeFresh.dependsOn(dockerDestroy)
-dockerFreshUp.dependsOn(dockerComposeFresh)
+task compile() {
+    dependsOn(dbtCompile, dbtDocs)
+}
 
-dbtRun.dependsOn(dbtCompile)
-dbtDocsServe.dependsOn(dbtDocs)
+task load() {
+    dependsOn(dbtSeed)
+    mustRunAfter(compile)
+}
+
+task transform() {
+    dependsOn(dbtRun)
+    mustRunAfter(compile, load)
+}
+
+task test() {
+    dependsOn(dbtTest)
+    mustRunAfter(compile, load, transform)
+}
+
+task runAll() {
+    dependsOn(compile, load, transform, test)
+}
+
+clean.dependsOn(dockerDestroyAll)
