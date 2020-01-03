@@ -39,7 +39,7 @@ jobs:
       - uses: actions/upload-artifact@master
         if: always()
         with:
-          name: dbt.log
+          name: dbt-log-01
           path: ./logs
       - name: Check spark outputs
         run: >
@@ -69,7 +69,7 @@ jobs:
       - uses: actions/upload-artifact@master
         if: always()
         with:
-          name: dbt-logs
+          name: dbt-log-02
           path: ./logs
       - name: Check spark outputs
         run: >
