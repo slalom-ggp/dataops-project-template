@@ -9,6 +9,7 @@
 .env
 logs
 build
+dbt_modules
 
 # VS Code cache for containers
 .devcontainer/.vscode**
