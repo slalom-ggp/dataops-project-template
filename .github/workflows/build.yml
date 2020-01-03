@@ -36,6 +36,11 @@ jobs:
         run: ./gradlew dbtTest
       - name: Generate data dictionary docs
         run: ./gradlew dbtDocs
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: dbt.log
+          path: ./logs
       - name: Check spark outputs
         run: >
           docker run --rm

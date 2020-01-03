@@ -25,6 +25,7 @@ services:
       - ../reporting:/projects/my-project/reporting
       - ../scripts:/projects/my-project/scripts
       - ../tests:/projects/my-project/tests
+      - ../logs:/projects/my-project/logs
       - ../.output:/projects/my-project/.output
       - warehouse:/spark_warehouse
       # - ../.output/spark:/spark_warehouse  # MySQL fails if dir mapped directly
