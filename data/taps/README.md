@@ -1,6 +1,6 @@
 # Data Taps - README
 
-This folder contains scripts and configuration needed to extract data using the [Singer Taps](https://singer.io) platform.
+This folder contains scripts and configuration needed to extract external source data using the open source [Singer Taps](https://singer.io) platform.
 
 ## Table of Contents
 
