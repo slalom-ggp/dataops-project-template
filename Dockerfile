@@ -6,7 +6,7 @@ WORKDIR $PROJECT_DIR
 
 RUN ls -la
 RUN dbt-spark --version
-# RUN dbt-spark compile --profiles-dir etc/dbt-config
+# RUN dbt-spark compile --profiles-dir tools/dbt/config
 
 # Install tap-salesforce
 RUN python3 -m venv tap-salesforce

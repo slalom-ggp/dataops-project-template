@@ -34,7 +34,7 @@ private Iterable<String> dbtCommand(String... commands) {
         "dbt-spark"
     ]
     newCommands.addAll(commands)
-    addlArgs = ["--profiles-dir", "./etc/dbt-config"]
+    addlArgs = ["--profiles-dir", "./tools/dbt/config"]
     newCommands.addAll(addlArgs)
     return newCommands
 }
@@ -53,7 +53,7 @@ private Iterable<String> dbtCommandWith8081(String... commands) {
         "dbt-spark"
     ]
     newCommands.addAll(commands)
-    addlArgs = ["--profiles-dir", "./etc/dbt-config"]
+    addlArgs = ["--profiles-dir", "./tools/dbt/config"]
     newCommands.addAll(addlArgs)
     return newCommands
 }
