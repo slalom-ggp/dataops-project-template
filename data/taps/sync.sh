@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Use this script to extract data for a specified tap.
+# Use this script to extract data for your project.
+
+# Salesforce extracts:
 
 ./utils/sync.sh salesforce Account
 ./utils/sync.sh salesforce Opportunity
