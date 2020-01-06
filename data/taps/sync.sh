@@ -4,7 +4,7 @@
 
 # Salesforce extracts:
 
-./utils/sync.sh salesforce Account
-./utils/sync.sh salesforce Opportunity
-./utils/sync.sh salesforce OpportunityHistory
-./utils/sync.sh salesforce User
+s-tap sync salesforce Account
+s-tap sync salesforce Opportunity
+s-tap sync salesforce OpportunityHistory
+s-tap sync salesforce User

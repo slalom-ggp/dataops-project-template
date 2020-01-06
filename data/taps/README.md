@@ -21,14 +21,14 @@ Update your `install.sh` script to include your taps and targets:
 
 ```bash
 # Use this script to install any taps and targets needed for this project.
-# i.e.: ./utils/install.sh PLUGIN_NAME [ INSTALL_SOURCE [ PLUGIN_ALIAS ] ]
+# i.e.: s-tap install PLUGIN_NAME [ INSTALL_SOURCE [ PLUGIN_ALIAS ] ]
 
 # Install taps:
-./utils/install.sh tap-salesforce git+https://gitlab.com/meltano/tap-salesforce.git@master
+s-tap install tap-salesforce git+https://gitlab.com/meltano/tap-salesforce.git@master
 
 # Install targets:
-./utils/install.sh target-csv
-./utils/install.sh target-s3-csv pipelinewise-target-s3-csv
+s-tap install target-csv
+s-tap install target-s3-csv pipelinewise-target-s3-csv
 ```
 
 ### Step 2. Add your secrets and configuration info
@@ -53,9 +53,9 @@ _Example for salesforce config `.secrets/tap-salesforce-config.json`:_
 
 ```bash
 # Use this script to create or update the metadata catalog for a specified tap.
-# i.e.: ./utils/discover.sh TAP_NAME
+# i.e.: s-tap discover TAP_NAME
 
-./utils/discover.sh salesforce
+s-tap discover salesforce
 ```
 
 ### Step 4. Add your table extracts to `sync.sh`
@@ -65,16 +65,16 @@ _Example for salesforce config `.secrets/tap-salesforce-config.json`:_
 # Use this script to extract data for your project.
 
 # Salesforce extracts:
-./sync.sh salesforce Account
-./sync.sh salesforce Opportunity
-./sync.sh salesforce OpportunityHistory
-./sync.sh salesforce User
+s-tap sync salesforce Account
+s-tap sync salesforce Opportunity
+s-tap sync salesforce OpportunityHistory
+s-tap sync salesforce User
 ```
 
 ### Step 5. Run the three scripts: `install`, `scan`, and `sync`
 
 ```bash
-./install.sh    # Installs your plugins (if they are not installed already)
-./scan.sh       # Scans source metadata and creates catalog files with tables names, column names, and data types
-./sync.sh       # Sync data from your data sources
+bash ./install.sh    # Installs your plugins (if they are not installed already)
+bash ./scan.sh       # Scans source metadata and creates catalog files with tables names, column names, and data types
+bash ./sync.sh       # Sync data from your data sources
 ```
