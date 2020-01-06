@@ -27,12 +27,12 @@ models:
 
 # 3. SQL Tests (queries that expect zero results)
 test-paths:
-  - tests/queries
+  - data/tests/sql
 
 # 4. Downstream Analyses (queries should compile but won't be executed)
 analysis-paths:
-  - reporting/queries
-  - tests/queries
+  - data/analysis/sql
+  - data/tests/sql
 
 # 5. Output Directory (for compilation and build results)
 target-path: .output/dbt
