@@ -8,10 +8,10 @@ RUN ls -la
 RUN dbt-spark --version
 # RUN dbt-spark compile --profiles-dir tools/dbt/config
 
-# Install tap-salesforce
-RUN python3 -m venv tap-salesforce
-RUN tap-salesforce/bin/pip install git+https://gitlab.com/meltano/tap-salesforce.git@master
-RUN ln -s /projects/my-project/tap-salesforce/bin/tap-salesforce /usr/bin/tap-salesforce
+# # Install tap-salesforce (skipping: now included in the base image)
+# RUN python3 -m venv tap-salesforce
+# RUN tap-salesforce/bin/pip install git+https://gitlab.com/meltano/tap-salesforce.git@master
+# RUN ln -s /projects/my-project/tap-salesforce/bin/tap-salesforce /usr/bin/tap-salesforce
 
 # Add tap-salesforce config template
 RUN mkdir -p /projects/my-project/.secrets
