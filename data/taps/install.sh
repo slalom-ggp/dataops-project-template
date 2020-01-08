@@ -5,6 +5,7 @@
 
 # Install taps:
 s-tap install tap-salesforce git+https://gitlab.com/meltano/tap-salesforce.git@master
+s-tap install tap-pardot
 
 # Install targets:
 s-tap install target-csv
