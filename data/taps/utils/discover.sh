@@ -20,7 +20,7 @@ fi
 START=`date`
 echo -e "Starting '$TAP_NAME' discovery at: $START"
 
-DISCOVER_CMD="tap-$TAP_NAME --config $SECRET_CONF --discover > $CATALOG_DIR/$TAP_NAME-catalog-full.json"
+DISCOVER_CMD="tap-$TAP_NAME --config $SECRET_CONF --discover > $CATALOG_DIR/$TAP_NAME-catalog-raw.json"
 echo "Running command to extract the $TAP_NAME '$TABLE_NAME' table to '$TARGET_NAME':\n\t$DISCOVER_CMD"
 $DISCOVER_CMD
 
