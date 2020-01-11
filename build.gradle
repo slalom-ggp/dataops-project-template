@@ -19,20 +19,28 @@ private static Iterable<String> osAdaptiveCommand(String... commands) {
     return newCommands
 }
 
+private static Boolean useDocker() {
+    return System.getenv("SPARK_HOME") == null
+}
+
 private Iterable<String> dbtCommand(String... commands) {
     def newCommands = []
     def addlArgs = []
-    newCommands = [
-        "docker", "run", "--rm",
-        "-e", "PROJECT_NAME=dataops-project",
-        "-e", "SPARK_WAREHOUSE_DIR=/spark_warehouse",
-        "-v", "${projectDir}:/projects/dataops-project",
-        "-w", "/projects/dataops-project/transform",
-        "-v", "${projectDir}/.devcontainer/.bashhist:/root/.bash_history",
-        "-v", "warehouse:/spark_warehouse",
-        "slalomggp/dataops:latest-dev",
-        "dbt-spark"
-    ]
+    if (useDocker()) {
+        newCommands = [
+            "docker", "run", "--rm",
+            "-e", "SPARK_WAREHOUSE_DIR=/spark_warehouse",
+            "-v", "warehouse:/spark_warehouse",
+            "-w", "/projects/my-project",
+            "-v", "${projectDir}:/projects/my-project",
+            "-v", "${projectDir}/.devcontainer/.bashhist:/root/.bash_history",
+            "slalomggp/dataops:latest-dev",
+            "dbt-spark"
+        ]
+    }
+    else {
+        newCommands = ["dbt-spark"]
+    }
     newCommands.addAll(commands)
     addlArgs = ["--profiles-dir", "./tools/dbt/config"]
     newCommands.addAll(addlArgs)
@@ -185,6 +193,33 @@ task dbtDocsServe(type:Exec) {
     dependsOn(dbtDocs)
     workingDir  = '.'
     commandLine = dbtCommandWith8081("docs", "serve", "--port", "8081")
+}
+
+task tapInstall(type:Exec) {
+    workingDir  = 'data/taps'
+    commandLine = osAdaptiveCommand(
+        "./install.sh"
+    )
+}
+
+task tapPlan(type:Exec) {
+    mustRunAfter(tapInstall)
+    workingDir  = 'data/taps'
+    commandLine = osAdaptiveCommand(
+        "./plan.sh"
+    )
+}
+
+task tapSync(type:Exec) {
+    mustRunAfter(tapInstall, tapPlan)
+    workingDir  = 'data/taps'
+    commandLine = osAdaptiveCommand(
+        "./sync.sh"
+    )
+}
+
+task install() {
+    dependsOn(tapInstall)
 }
 
 task compile() {

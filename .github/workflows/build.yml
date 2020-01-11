@@ -49,6 +49,19 @@ jobs:
           ubuntu:18.04
           ls -lah /spark_warehouse/data
 
+  run_extracts:
+    runs-on: ubuntu-latest
+    env:
+      TARGET_S3_CSV_bucket_name: propensity-to-buy
+      TARGET_S3_CSV_s3_key_prefix: ci-test-extracts
+    steps:
+      - name: Clone git repo
+        uses: actions/checkout@v1
+      - name: Install taps
+        run:  ./gradlew install
+      - name: Run taps sync
+        run:  ./gradlew sync
+
   run_all_as_one_liner:
     runs-on: ubuntu-latest
     strategy:

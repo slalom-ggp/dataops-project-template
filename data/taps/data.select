@@ -19,19 +19,28 @@
 # - Columns prefixed with a tilde '~' will be included but will be obfuscated
 #   using a one-way hash, which defaults to MD5 with project name as the seed.
 
-# Table Selection:
+# Pardot Tables:
 
-pardot.campaigns.*
-pardot.email_clicks.*
-pardot.list_memberships.*
-pardot.lists.*
-pardot.opportunities.*
-pardot.prospect_accounts.*
-pardot.prospects.*
-pardot.users.*
-pardot.visitor_activities.*
-pardot.visitors.*
-pardot.visits.*
+pardot.campaigns
+pardot.email_clicks
+pardot.list_memberships
+pardot.lists
+pardot.opportunities
+pardot.prospect_accounts
+pardot.prospects
+pardot.users
+pardot.visitor_activities
+pardot.visitors
+pardot.visits
+
+# Pardot Columns:
+
+pardot.*.id
+pardot.*.*_id
+pardot.*.*_at
+pardot.*.is_*
+
+# Salesforce Tables:
 
 salesforce.Account
 salesforce.Opportunity
@@ -40,7 +49,7 @@ salesforce.User
 salesforce.RecordType.*
 salesforce.OpportunityTag.*
 
-# Global Columns Whitelist:
+# Global Salesforce Column Whitelist:
 
 salesforce.*.Id
 salesforce.*.ParentId
@@ -50,8 +59,6 @@ salesforce.*.LastModifiedDate
 salesforce.*.SystemModstamp
 salesforce.*.CloseDate
 salesforce.*.StageName
-
-!salesforce.Account.Id
 
 # Advanced Exclusions:
 
