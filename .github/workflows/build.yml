@@ -57,6 +57,10 @@ jobs:
     steps:
       - name: Clone git repo
         uses: actions/checkout@v1
+      - name: Fix permissions
+        run: |
+          chmod 777 ./gradlew
+          pwd && ls -la
       - name: Install taps
         run:  ./gradlew install
       - name: Run taps sync
