@@ -1,3 +1,0 @@
-# This file prevents exported data (CSVs) from accidentally being committed to git.
-
-*.csv
