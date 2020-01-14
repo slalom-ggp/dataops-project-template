@@ -3,14 +3,25 @@
 
 set -e  # Stop on failure
 
-# Configure S3 target
+# Configure CSV target (local)
+
+SCRIPT=$(readlink -f "$0")
+SCRIPT_DIR=$(dirname "$SCRIPT")
+DATA_DIR=$(dirname "$SCRIPT_DIR")
+ROOT_DIR=$(dirname "$DATA_DIR")
+CSV_OUT_DIR=$ROOT_DIR/.output/taps/target-csv
+mkdir -p $CSV_OUT_DIR
+export TARGET_CSV_destination_path=$CSV_OUT_DIR
+
+# Configure S3 CSV target
 
 export TARGET_S3_CSV_aws_access_key_id=$AWS_ACCESS_KEY_ID
 export TARGET_S3_CSV_aws_secret_access_key=$AWS_SECRET_ACCESS_KEY
 export TARGET_S3_CSV_bucket_name=propensity-to-buy
 export TARGET_S3_CSV_s3_key_prefix=sync-test/
 export TARGET_S3_CSV_encryption_type=kms
-export TARGET_S3_CSV_encryption_key=f4a1bf33-5862-4eb5-b8f9-6881a50521ba
+# Replace with your own ID:
+export TARGET_S3_CSV_encryption_key=f4a1bf33-5862-4eb5-b8f9-6881a50521ba 
 
 # Salesforce extracts:
 
