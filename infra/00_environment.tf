@@ -1,7 +1,7 @@
 # STANDARD TERRAFORM ENVIRONMENT DEFINITION
 # NO NEED TO MODIFY THIS FILE
 
-data "local_file" "config_yml" { filename = "${path.module}/../../config.yml" }
+data "local_file" "config_yml" { filename = "${path.module}/../config.yml" }
 data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "az_list" {}
 
@@ -16,4 +16,5 @@ locals {
 provider "aws" {
   region  = local.aws_region
   version = "~> 2.10"
+  profile = "${local.project_shortname}-terraform"
 }

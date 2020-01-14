@@ -8,6 +8,9 @@
 		"redhat.vscode-yaml", // YAML
 		"davehart.quick-run-panel", // Tasks "QUICK RUN" in Explorer Pane
 		"actboy168.tasks", // Task execution from status bar
+		"naco-siren.gradle-language", // Add Gradle language support for Visual Studio Code
+		"richardwillis.vscode-gradle", // Run Gradle tasks in VS Code
+		"spmeesseman.vscode-taskexplorer", // Task Explorer
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [

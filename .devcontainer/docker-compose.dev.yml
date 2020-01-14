@@ -1,4 +1,6 @@
 version: '3.1'
+volumes:
+  warehouse:
 services:
   dataops_dev:
     container_name: dataops_dev
@@ -10,22 +12,22 @@ services:
     environment:
       - PROJECT_NAME=dataops-project
       - PYTHONUNBUFFERED=1
-      # - SPARK_WAREHOUSE_DIR=/spark_warehouse
+      - SPARK_WAREHOUSE_DIR=/spark_warehouse
     volumes:
-      - ..:/projects/my-project
-      - ..:/projects/.source
       # - /c/:/c/
-      - ~/.aws/credentials:/home/.aws/credentials
-      - ./.vscode-server/:/root/.vscode-server
-      - ./.vscode-server-insiders/:/root/.vscode-server-insiders
+      - ..:/projects/.source
+      # - ~/.aws/credentials:/home/.aws/credentials
+      # - ./.vscode-server/:/root/.vscode-server
+      # - ./.vscode-server-insiders/:/root/.vscode-server-insiders
       - ../data:/projects/my-project/data
-      - ../etc:/projects/my-project/etc
+      - ../tools:/projects/my-project/tools
       - ../infra:/projects/my-project/infra
-      - ../reporting:/projects/my-project/reporting
-      - ../scripts:/projects/my-project/scripts
-      - ../tests:/projects/my-project/tests
-      # - warehouse:/spark_warehouse
+      - ../logs:/projects/my-project/logs
+      - ../.output:/projects/my-project/.output
+      - ../.secrets:/projects/my-project/.secrets
+      - warehouse:/spark_warehouse
       # - ../.output/spark:/spark_warehouse  # MySQL fails if dir mapped directly
+      # - ..:/projects/my-project  R Redundant
     ports:
       - "4040:4040"    # App Web UI
       - "7077:7077"    # Standalone master driver

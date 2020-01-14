@@ -15,31 +15,32 @@ jobs:
     steps:
       - name: Clone git repo
         uses: actions/checkout@v1
-      - name: Build Docker image
+      - name: Fix permissions
         run: |
-          docker build -t dataops-project .
-      - name: Compile DBT project
-        env:
-          SPARK_WAREHOUSE_DIR: /spark_warehouse
-        run: >
-          docker run --rm
-          -v $(pwd):/projects/my-project
-          -v warehouse:/spark_warehouse
-          -w /projects/my-project
-          dataops-project
-          dbt-spark compile
-          --profiles-dir etc/dbt-config
-      - name: Run DBT project
-        env:
-          SPARK_WAREHOUSE_DIR: /spark_warehouse
-        run: >
-          docker run --rm
-          -v $(pwd):/projects/my-project
-          -v warehouse:/spark_warehouse
-          -w /projects/my-project
-          dataops-project
-          dbt-spark run
-          --profiles-dir etc/dbt-config
+          chmod 777 ./gradlew
+          pwd && ls -la
+      - name: Install prereqs
+        run: |
+          sudo apt-get install -y python3-setuptools
+          pip3 install docker-compose
+          docker-compose --version
+      - name: Build Docker image
+        run: ./gradlew dockerCompose --stacktrace --info
+      - name: Compile SQL transforms (dbt compile)
+        run: ./gradlew dbtCompile
+      - name: Load seed files (dbt seed)
+        run: ./gradlew dbtSeed
+      - name: Run SQL transforms (dbt run)
+        run: ./gradlew dbtRun
+      - name: Run tests (dbt test)
+        run: ./gradlew dbtTest
+      - name: Generate data dictionary docs (dbt docs generate)
+        run: ./gradlew dbtDocs
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: dbt-log-01
+          path: ./logs
       - name: Check spark outputs
         run: >
           docker run --rm
@@ -47,3 +48,73 @@ jobs:
           -w /spark_warehouse/data
           ubuntu:18.04
           ls -lah /spark_warehouse/data
+
+  # run_extracts:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     TARGET_S3_CSV_bucket_name: propensity-to-buy
+  #     TARGET_S3_CSV_s3_key_prefix: ci-test-extracts
+  #   steps:
+  #     - name: Clone git repo
+  #       uses: actions/checkout@v1
+  #     - name: Fix permissions
+  #       run: |
+  #         chmod 777 ./gradlew
+  #         pwd && ls -la
+  #     - name: Install taps
+  #       run:  ./gradlew install
+  #     - name: Run taps sync
+  #       run:  ./gradlew sync
+
+  run_all_as_one_liner:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+      - name: Clone git repo
+        uses: actions/checkout@v1
+      - name: Fix permissions
+        run: |
+          chmod 777 ./gradlew
+          pwd && ls -la
+      - name: Build Docker image
+        run: ./gradlew dockerCompose --stacktrace --info
+      - name: Execute 'runAll' build step
+        run: ./gradlew runAll
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: dbt-log-02
+          path: ./logs
+      - name: Check spark outputs
+        run: >
+          docker run --rm
+          -v warehouse:/spark_warehouse
+          -w /spark_warehouse/data
+          ubuntu:18.04
+          ls -lah /spark_warehouse/data
+
+  generate_docs:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+      - name: Clone git repo
+        uses: actions/checkout@v1
+      - name: Fix permissions
+        run: |
+          chmod 777 ./gradlew
+          pwd && ls -la
+      - name: Build Docker image
+        run: ./gradlew dockerCompose --stacktrace --info
+      - name: Generate data dictionary docs (dbt docs generate)
+        run: ./gradlew dbtDocs
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: docs-output
+          path: ./.output/dbt

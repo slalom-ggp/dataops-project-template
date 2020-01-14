@@ -30,39 +30,11 @@
         {
             "label": "▶ DataOps: (2) Refresh Environment",
             "type": "shell", // "shell" or "process"
-            "command": "docker-compose --project-name dataops-project-template_devcontainer -f .devcontainer/docker-compose.dev.yml down --remove-orphans && docker-compose --project-name dataops-project-template_devcontainer --file .devcontainer/docker-compose.dev.yml build && docker-compose --project-name dataops-project-template_devcontainer -f .devcontainer/docker-compose.dev.yml up",
+            "command": "gradle dockerFreshUp",
             "group": "build", // "test" for tests
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
-            },
-            "problemMatcher": [],
-            "options": {
-                "statusbar": {
-                    "color": "#ffffff",
-                    "tooltip": "Click to build the main docker image...",
-                    "label": ">docker-build!"
-                }
-            }
-        },
-        {
-            "label": "▶ DataOps: (3) Install Libraries",
-            "type": "process", // "shell" or "process"
-            "command": "docker",
-            "args": [
-                "run", "-it", 
-                "--env-file", "${workspaceFolder}/dataops-project/.env",
-                "-e", "PROJECT_NAME=dataops-project",
-                "-v", "${workspaceFolder}/dataops-project:/projects/dataops-project",
-                "-w", "/projects/dataops-project",
-                "-v", "${workspaceFolder}/.devcontainer/.bashhist:/root/.bash_history",
-                "devcontainer_meltano_dev:latest",
-                "/venv/meltano/bin/meltano",
-                "install",
-            ],
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
             },
             "problemMatcher": [],
             "options": {
@@ -95,19 +67,7 @@
         {
             "label": "▶ DataOps: (5) Compile DBT Transforms",
             "type": "process", // "shell" or "process"
-            "command": "docker",
-            "args": [
-                "run", "-it", 
-                "--env-file", "${workspaceFolder}/dataops-project/.env",
-                "-e", "PROJECT_NAME=dataops-project",
-                "-v", "${workspaceFolder}/dataops-project:/projects/dataops-project",
-                "-w", "/projects/dataops-project/transform",
-                "-v", "${workspaceFolder}/.devcontainer/.bashhist:/root/.bash_history",
-                "devcontainer_meltano_dev:latest",
-                "/venv/dbt/bin/dbt",
-                "compile",
-                "--profiles-dir", "./profile",
-            ],
+            "command": "gradle dbtCompile",
             "group": "build", // "test" for tests
             "presentation": {
                 "reveal": "always",
@@ -126,19 +86,7 @@
         {
             "label": "▶ DataOps: (6) Run DBT Transforms",
             "type": "process", // "shell" or "process"
-            "command": "docker",
-            "args": [
-                "run", "-it", 
-                "--env-file", "${workspaceFolder}/dataops-project/.env",
-                "-e", "PROJECT_NAME=dataops-project",
-                "-v", "${workspaceFolder}/.devcontainer/.bashhist:/root/.bash_history",
-                "-v", "${workspaceFolder}/dataops-project:/projects/dataops-project",
-                "-w", "/projects/dataops-project/transform",
-                "devcontainer_meltano_dev:latest",
-                "/venv/dbt/bin/dbt",
-                "run",
-                "--profiles-dir", "./profile",
-            ],
+            "command": "gradle dbtRun",
             "group": "build", // "test" for tests
             "presentation": {
                 "reveal": "always",

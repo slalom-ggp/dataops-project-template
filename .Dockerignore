@@ -1,3 +1,4 @@
+.gradle
 .devcontainer/.vscode-server
 .devcontainer/.vscode-server-insiders
 .Dockerignore

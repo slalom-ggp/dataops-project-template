@@ -1,3 +1,4 @@
+.gradle
 .secrets
 **/.meltano**
 **/dbt.log**
@@ -7,6 +8,10 @@
 /.meltano
 .env
 logs
+build
+dbt_modules
+.terraform
+data/taps/**/*.csv
 
 # VS Code cache for containers
 .devcontainer/.vscode**

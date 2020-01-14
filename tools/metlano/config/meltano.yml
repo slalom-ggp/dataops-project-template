@@ -9,7 +9,11 @@ plugins:
     select:
     - Account.*
     - Opportunity.*
-    - OpportunityHistory.*
+    - OpportunityHistory.*:
+        include:
+          - "*"
+        exclude:
+          - ""
     - User.*
     - Contact.*
     - Lead.*
