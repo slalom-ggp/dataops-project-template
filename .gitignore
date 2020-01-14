@@ -10,6 +10,7 @@
 logs
 build
 dbt_modules
+.terraform
 
 # VS Code cache for containers
 .devcontainer/.vscode**
