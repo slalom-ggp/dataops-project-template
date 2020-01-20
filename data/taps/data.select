@@ -19,6 +19,11 @@
 # - Columns prefixed with a tilde '~' will be included but will be obfuscated
 #   using a one-way hash, which defaults to MD5 with project name as the seed.
 
+
+###################
+### PARDOT ########
+###################
+
 # Pardot Tables:
 
 pardot.campaigns
@@ -39,6 +44,11 @@ pardot.*.id
 pardot.*.*_id
 pardot.*.*_at
 pardot.*.is_*
+
+
+###################
+### SALESFORCE ####
+###################
 
 # Salesforce Tables:
 
