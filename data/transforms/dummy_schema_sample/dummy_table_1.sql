@@ -1,3 +1,3 @@
 -- {{ config(materialized='table') }}
 
-select 1 as id
+select times_six(1) as id

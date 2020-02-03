@@ -26,3 +26,7 @@ RUN python3 -m venv /venv/target-csv && \
 RUN python3 -m venv /venv/target-s3-csv && \
     /venv/target-csv/bin/pip install pipelinewise-target-s3-csv && \
     ln -s /venv/target-csv/bin/target-s3-csv /usr/bin/target-s3-csv
+
+# Install UDFs into Spark
+ENV SPARK_UDF_MODULE ${PROJECT_DIR}/tools/spark/udfs
+RUN python3 -m pip install -r $SPARK_UDF_MODULE/requirements.txt

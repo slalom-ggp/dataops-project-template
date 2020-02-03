@@ -5,9 +5,15 @@ plugins {
 }
 
 buildDir = "${projectDir}/.output"
+
 private static String buildTimestamp() {
     return new Date().format('yyyyMMddHHmmss')
 }
+
+private static String dockerImage() {
+    String fileContents = new File('./Dockerimage').text
+    return fileContents
+} 
 
 private static Iterable<String> osAdaptiveCommand(String... commands) {
     def newCommands = []
@@ -31,10 +37,15 @@ private Iterable<String> dbtCommand(String... commands) {
             "docker", "run", "--rm",
             "-e", "SPARK_WAREHOUSE_DIR=/spark_warehouse",
             "-v", "warehouse:/spark_warehouse",
+            "-v", "C:\\Files\\Source\\dataops-tools:/opt/conda/lib/python3.7/site-packages/slalom.dataops-1.0.0.dev0-py3.7.egg",
+            "-p", "10000:10000",
             "-w", "/projects/my-project",
             "-v", "${projectDir}:/projects/my-project",
             "-v", "${projectDir}/.devcontainer/.bashhist:/root/.bash_history",
-            "slalomggp/dataops:latest-dev",
+            "-e", "AWS_CONFIG_FILE=/projects/my-project/.secrets/aws_credentials",
+            "-e", "WITH_SPARK=true",
+            "-e", "AWS_SHARED_CREDENTIALS_FILE=/projects/my-project/.secrets/aws_credentials",
+            dockerImage(),
             "dbt-spark"
         ]
     }
@@ -57,7 +68,7 @@ private Iterable<String> dbtCommandWith8081(String... commands) {
         "-p", "8081:8081",
         "-w", "/projects/dataops-project/transform",
         "-v", "${projectDir}/.devcontainer/.bashhist:/root/.bash_history",
-        "slalomggp/dataops:latest-dev",
+        dockerImage(),
         "dbt-spark"
     ]
     newCommands.addAll(commands)
@@ -123,7 +134,25 @@ task dockerDestroyAll() {
     dependsOn(dockerDestroyContainers, dockerDestroyVolume)
 }
 
+task dockerBuild(type:Exec) {
+    mustRunAfter(dockerDestroyAll, dockerDestroyContainers, dockerDestroyVolume)
+    workingDir  = '.'
+    commandLine = osAdaptiveCommand(
+        "docker", "build", "-t", dockerImage(), ".",
+    )
+}
+
+task dockerPush(type:Exec) {
+    mustRunAfter(dockerBuild)
+    workingDir  = "."
+    commandLine = osAdaptiveCommand(
+        "docker", "push", dockerImage()
+    )
+}
+
 task dockerCompose(type:Exec) {
+    dependsOn(dockerBuild)
+    mustRunAfter(dockerDestroyAll, dockerDestroyContainers, dockerDestroyVolume)
     workingDir  = '.'
     commandLine = osAdaptiveCommand(
         "docker-compose",
@@ -133,8 +162,26 @@ task dockerCompose(type:Exec) {
     )
 }
 
+task dockerPullGrandparent(type:Exec) {
+    // Use only when simultaneously testing changes to the the `dataops-tools` repo locally
+    workingDir  = '../dataops-tools'
+    commandLine = osAdaptiveCommand(
+        "docker", "pull", "slalomggp/dbt:latest-dev"
+    )
+}
+
+task dockerBuildParent(type:Exec) {
+    // Use only when simultaneously testing changes to the the `dataops-tools` repo locally
+    mustRunAfter(dockerPullGrandparent)
+    workingDir  = '../dataops-tools'
+    commandLine = osAdaptiveCommand(
+        "docker", "build", "-t", "slalomggp/dataops:latest-dev", "."
+    )
+}
+
 task dockerComposeFresh() {
     dependsOn(dockerDestroyAll, dockerCompose)
+    mustRunAfter(dockerBuildParent)
 }
 
 task dockerUp(type:Exec) {
@@ -245,4 +292,12 @@ task runAll() {
     dependsOn(compile, load, transform, test)
 }
 
-clean.dependsOn(dockerDestroyAll)
+task rebuildUp(type:Exec) {
+}
+
+task testUDFs(type:Exec) {
+    mustRunAfter(dockerCompose, dockerBuildParent, dockerPullGrandparent)
+    // dependsOn(dockerCompose)
+    workingDir  = "."
+    commandLine = dbtCommand("run")
+}

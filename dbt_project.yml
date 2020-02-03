@@ -5,7 +5,7 @@ profile: spark-local
 
 # 1. Seed Data (raw CSV files):
 data-paths:
-  - data/seeds
+  - data/transforms/_raw_
 seeds:
   my_project:
     list_integers:
@@ -19,9 +19,12 @@ source-paths:
 models:
   my_project:
     dummy_schema_sample:
+      enabled: false
+      materialized: table
+    linked_in_v2:
       enabled: true
       materialized: table
-    linked_in_sample:
+    linked_in_v1:
       enabled: false
       materialized: table
 
