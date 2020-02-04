@@ -1,3 +1,6 @@
+-- {{ config(materialized='table') }}
+-- {{ config(location='s3://propensity-to-buy/data/linkedin/out/linkedin-spark-test.csv' }}
+
 WITH linkedin_contacts_raw AS (
     SELECT * from linkedin_data_1_raw
 )
