@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# This script will be executed with the project's Dockerfile
 # Use this script to install any taps and targets needed for this project.
 # i.e.: s-tap install PLUGIN_NAME [ INSTALL_SOURCE [ PLUGIN_ALIAS ] ]
 
