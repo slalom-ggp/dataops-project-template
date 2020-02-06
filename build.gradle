@@ -150,6 +150,13 @@ task dockerPush(type:Exec) {
     )
 }
 
+task dockerPull(type:Exec) {
+    workingDir  = "."
+    commandLine = osAdaptiveCommand(
+        "docker", "pull", dockerImage()
+    )
+}
+
 task dockerCompose(type:Exec) {
     dependsOn(dockerBuild)
     mustRunAfter(dockerDestroyAll, dockerDestroyContainers, dockerDestroyVolume)
