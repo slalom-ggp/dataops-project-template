@@ -21,10 +21,10 @@ models:
     dummy_schema_sample:
       enabled: false
       materialized: table
-    linked_in_v2:
+    linked_in_v1:
       enabled: true
       materialized: table
-    linked_in_v1:
+    linked_in_v2:
       enabled: false
       materialized: table
 
