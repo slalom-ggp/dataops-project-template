@@ -9,6 +9,7 @@ RUN ls -la
 RUN dbt-spark --version
 
 # Install Singer Taps and Targets:
+RUN chmod 777 ./data/taps/install.sh
 RUN ./data/taps/install.sh
 
 # Install custom UDFs into Spark:
