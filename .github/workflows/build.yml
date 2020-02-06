@@ -82,7 +82,7 @@ jobs:
       - name: Build Docker image
         run: ./gradlew dockerCompose --stacktrace --info
       - name: Execute 'runAll' build step
-        run: ./gradlew runAll
+        run: ./gradlew runAll --stacktrace --info
       - uses: actions/upload-artifact@master
         if: always()
         with:
@@ -112,7 +112,7 @@ jobs:
       - name: Build Docker image
         run: ./gradlew dockerCompose --stacktrace --info
       - name: Generate data dictionary docs (dbt docs generate)
-        run: ./gradlew dbtDocs
+        run: ./gradlew dbtDocs --stacktrace --info
       - uses: actions/upload-artifact@master
         if: always()
         with:
