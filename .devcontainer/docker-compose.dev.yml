@@ -8,11 +8,12 @@ services:
       context: ..
       args: []
     working_dir: /projects/my-project
-    command: spark start_server --with_jupyter
+    command: s-spark start_server --with_jupyter
     environment:
       - PROJECT_NAME=dataops-project
       - PYTHONUNBUFFERED=1
       - SPARK_WAREHOUSE_DIR=/spark_warehouse
+      - SPARK_UDF_MODULE=
     volumes:
       # - /c/:/c/
       - ..:/projects/.source
