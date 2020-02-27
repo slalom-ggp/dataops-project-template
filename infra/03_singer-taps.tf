@@ -5,7 +5,7 @@ module "singer_taps_on_aws" {
   # source        = "git::https://github.com/slalom-ggp/dataops-infra.git//catalog/aws/singer-taps?ref=master"
   source          = "../../dataops-infra/catalog/aws/singer-taps"
   name_prefix     = local.name_prefix
-  resource_tags   = local.project_tags
+  resource_tags   = local.resource_tags
   environment     = module.env.environment
 
   # ADD OR MODIFY CONFIGURATION HERE:
@@ -14,7 +14,12 @@ module "singer_taps_on_aws" {
   tap_plan_command        = "./data/taps/plan.sh"
   tap_sync_command        = "./data/taps/sync.sh"
   scheduled_sync_interval = "4 hours"
-  environment_vars        = {}
+  environment_vars        = {
+    PARDOT_USERNAME_KEY_ID = module.secrets.secrets_ids["APPLICATION_A"]
+  }
+  environment_secrets     = {
+    PARDOT_USERNAME = module.secrets.secrets_ids["APPLICATION_A"]
+  }
 
   /* OPTIONALLY, COPY-PASTE ADDITIONAL SETTINGS FROM BELOW:
 
