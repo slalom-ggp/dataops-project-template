@@ -1,18 +1,22 @@
 .gradle
-.secrets
 **/.meltano**
 **/dbt.log**
-**/secrets.yml
 **/.output
 /venv
 /.meltano
 .env
 logs/*
-!**/README.md
 build
 dbt_modules
 .terraform
 data/taps/**/*.csv
+**/*.tfstate
+**/*.tfstate*
+infra-config.yml
+
+**/*secrets.yml
+.secrets/**
+!**/.secrets/README.md
 
 # VS Code cache for containers
 .devcontainer/.vscode**
