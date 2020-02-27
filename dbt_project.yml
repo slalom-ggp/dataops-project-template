@@ -22,7 +22,7 @@ models:
       enabled: false
       materialized: table
     linked_in_v1:
-      enabled: true
+      enabled: false
       materialized: table
     linked_in_v2:
       enabled: false
