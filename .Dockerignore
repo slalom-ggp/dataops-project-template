@@ -1,5 +1,23 @@
-.gradle
+.devcontainer/.bashhist
 .devcontainer/.vscode-server
 .devcontainer/.vscode-server-insiders
+.git
+.gradle
+.output
 .Dockerignore
-.git*
+Dockerfile
+docker-compose.yml
+logs
+derby.log
+**/.terraform
+
+# Possible secrets paths:
+.secrets
+secrets
+credentials
+**/.secrets
+**/secrets
+**/credentials
+
+# Comment out this line after testing:
+# build.gradle

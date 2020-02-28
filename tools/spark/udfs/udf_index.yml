@@ -1,0 +1,11 @@
+udfs:
+  month_index: >
+    dates_udf.py:month_index()
+  get_email_attachment: >
+    outlook_msg_udfs.py:get_email_attachment()
+  extract_file_from_zip: >
+    outlook_msg_udfs.py:extract_file_from_zip()
+  parse_email_sender: >
+    outlook_msg_udfs.py:parse_email_sender()
+  parse_email_send_date: >
+    outlook_msg_udfs.py:parse_email_send_date()

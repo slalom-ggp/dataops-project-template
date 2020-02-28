@@ -10,6 +10,8 @@ module "dbt_on_aws" {
 
   # ADD OR MODIFY CONFIGURATION HERE:
 
+  # container_image            = file("../../Dockerimage")
+  # dbt_run_command            = "./gradlew runAll"
   container_image            = "slalomggp/dataops:test-project-latest-dev"
   dbt_run_command            = "./gradlew dbtSeed dbtCompile dbtRun"
   scheduled_timezone         = "PST"

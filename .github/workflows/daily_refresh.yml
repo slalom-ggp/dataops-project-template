@@ -1,0 +1,54 @@
+name: Automated Build and Test
+
+on:
+  schedule:
+    - cron:  '0 4 * * *'
+jobs:
+  run_all_as_one_liner:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+      - name: Clone git repo
+        uses: actions/checkout@v1
+      - name: Fix permissions
+        run: chmod 777 ./gradlew
+      - name: Pull Docker image
+        run: ./gradlew dockerPull --stacktrace --info
+      - name: Execute 'runAll' build step
+        run: ./gradlew runAll --stacktrace --info
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: dbt-log-02
+          path: ./logs
+      - name: Check spark outputs
+        run: >
+          docker run --rm
+          -v warehouse:/spark_warehouse
+          -w /spark_warehouse/data
+          ubuntu:18.04
+          ls -lah /spark_warehouse/data
+
+  generate_docs:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+      - name: Clone git repo
+        uses: actions/checkout@v1
+      - name: Fix permissions
+        run: chmod 777 ./gradlew
+      - name: Pull Docker image
+        run: ./gradlew dockerPull --stacktrace --info
+      - name: Generate data dictionary docs (dbt docs generate)
+        run: ./gradlew dbtDocs --stacktrace --info
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: docs-output
+          path: ./.output/dbt

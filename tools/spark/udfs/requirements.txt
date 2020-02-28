@@ -1,0 +1,3 @@
+# list of python packages needed for Spark UDFs
+
+extract-msg

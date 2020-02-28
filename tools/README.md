@@ -8,4 +8,5 @@ project-root    # The root directory
    - dbt        # Config files and scripts for DBT (Data Build Tool)
    - gradle     # Config files and scripts for Gradle (Build Automation)
    - meltano    # Config files and scripts for Meltano (Web UI)
+   - spark      # Config files and scripts for Spark
 ```

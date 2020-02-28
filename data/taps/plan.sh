@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# Use this script to create or update the metadata catalog for a specified tap.
+# Use this script to create or update the metadata catalog and plan files for singer taps.
 # i.e.: s-tap discover TAP_NAME
 
-# pip3 install --upgrade git+https://github.com/slalom-ggp/dataops-tools.git@feat/taputils
-# SELECT_FILE=/projects/my-project/data/taps/data.select
-
-s-tap plan salesforce $SELECT_FILE
-s-tap plan pardot $SELECT_FILE
+s-tap plan salesforce
+s-tap plan pardot

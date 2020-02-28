@@ -27,15 +27,15 @@ jobs:
       - name: Build Docker image
         run: ./gradlew dockerCompose --stacktrace --info
       - name: Compile SQL transforms (dbt compile)
-        run: ./gradlew dbtCompile
+        run: ./gradlew dbtCompile --stacktrace --info
       - name: Load seed files (dbt seed)
-        run: ./gradlew dbtSeed
+        run: ./gradlew dbtSeed --stacktrace --info
       - name: Run SQL transforms (dbt run)
-        run: ./gradlew dbtRun
+        run: ./gradlew dbtRun --stacktrace --info
       - name: Run tests (dbt test)
-        run: ./gradlew dbtTest
+        run: ./gradlew dbtTest --stacktrace --info
       - name: Generate data dictionary docs (dbt docs generate)
-        run: ./gradlew dbtDocs
+        run: ./gradlew dbtDocs --stacktrace --info
       - uses: actions/upload-artifact@master
         if: always()
         with:
@@ -82,7 +82,7 @@ jobs:
       - name: Build Docker image
         run: ./gradlew dockerCompose --stacktrace --info
       - name: Execute 'runAll' build step
-        run: ./gradlew runAll
+        run: ./gradlew runAll --stacktrace --info
       - uses: actions/upload-artifact@master
         if: always()
         with:
@@ -112,7 +112,7 @@ jobs:
       - name: Build Docker image
         run: ./gradlew dockerCompose --stacktrace --info
       - name: Generate data dictionary docs (dbt docs generate)
-        run: ./gradlew dbtDocs
+        run: ./gradlew dbtDocs --stacktrace --info
       - uses: actions/upload-artifact@master
         if: always()
         with:

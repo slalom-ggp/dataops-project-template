@@ -10,6 +10,9 @@ module "singer_taps_on_aws" {
 
   # ADD OR MODIFY CONFIGURATION HERE:
 
+  # container_image         = file("../../Dockerimage")
+  # tap_plan_command        = "./gradlew tapPlan"
+  # tap_sync_command        = "./gradlew tapPlan tapSync"
   container_image         = "slalomggp/dataops:test-project-latest-dev"
   tap_plan_command        = "./data/taps/plan.sh"
   tap_sync_command        = "./data/taps/sync.sh"
