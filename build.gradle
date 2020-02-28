@@ -250,7 +250,6 @@ task dbtDocsServe(type:Exec) {
 }
 
 task tapPlan(type:Exec) {
-    mustRunAfter(tapInstall)
     workingDir  = 'data/taps'
     commandLine = osAdaptiveCommand(
         "./plan.sh"
@@ -258,15 +257,11 @@ task tapPlan(type:Exec) {
 }
 
 task tapSync(type:Exec) {
-    mustRunAfter(tapInstall, tapPlan)
+    mustRunAfter(tapPlan)
     workingDir  = 'data/taps'
     commandLine = osAdaptiveCommand(
         "./sync.sh"
     )
-}
-
-task install() {
-    dependsOn(tapInstall)
 }
 
 task compile() {
