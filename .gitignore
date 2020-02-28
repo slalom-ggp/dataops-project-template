@@ -15,7 +15,7 @@ data/taps/**/*.csv
 infra-config.yml
 
 **/*secrets.yml
-.secrets/**
+**/.secrets/**
 !**/.secrets/README.md
 
 # VS Code cache for containers

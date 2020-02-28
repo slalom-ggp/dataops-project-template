@@ -13,7 +13,7 @@ private static String buildTimestamp() {
 private static String dockerImage() {
     String fileContents = new File('./Dockerimage').text
     return fileContents
-} 
+}
 
 private static Iterable<String> osAdaptiveCommand(String... commands) {
     def newCommands = []
@@ -101,7 +101,7 @@ task dockerDestroyVolume(type:Exec) {
 task dockerVolumeLs(type:Exec) {
     commandLine = osAdaptiveCommand(
         "docker", "run", "--rm",
-        "-v", "warehouse:/spark_warehouse", 
+        "-v", "warehouse:/spark_warehouse",
         "busybox", "ls", "/spark_warehouse", "-la",
     )
     doFirst {
@@ -247,13 +247,6 @@ task dbtDocsServe(type:Exec) {
     dependsOn(dbtDocs)
     workingDir  = '.'
     commandLine = dbtCommandWith8081("docs", "serve", "--port", "8081")
-}
-
-task tapInstall(type:Exec) {
-    workingDir  = 'data/taps'
-    commandLine = osAdaptiveCommand(
-        "./install.sh"
-    )
 }
 
 task tapPlan(type:Exec) {

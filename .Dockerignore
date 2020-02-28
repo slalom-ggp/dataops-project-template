@@ -6,6 +6,7 @@
 .output
 .Dockerignore
 Dockerfile
+docker-compose.yml
 logs
 derby.log
 **/.terraform

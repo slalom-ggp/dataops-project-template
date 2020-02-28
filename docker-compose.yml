@@ -1,0 +1,46 @@
+version: '3.1'
+volumes:
+  warehouse:
+services:
+  tap-runner:
+    container_name: tap-runner
+    build:
+      context: .
+      args:
+        - source_image=slalomggp/dataops:latest-dev
+    working_dir: /projects/my-project
+    command: ./gradlew tapPlan
+    volumes:
+      # - /c/:/c/
+      - .:/projects/my-project
+      # Test sibling python repo without rebuilding image:
+      - ../dataops-tools/slalom:/opt/conda/lib/python3.7/site-packages/slalom.dataops-1.0.0.dev0-py3.7.egg/slalom
+      # - ~/.aws/credentials:/home/.aws/credentials
+      # - ./.vscode-server/:/root/.vscode-server
+      # - ./.vscode-server-insiders/:/root/.vscode-server-insiders
+      # - ../data:/projects/my-project/data
+      # - ../tools:/projects/my-project/tools
+      # - ../infra:/projects/my-project/infra
+      # - ../logs:/projects/my-project/logs
+      # - ../.output:/projects/my-project/.output
+      # - ../.secrets:/projects/my-project/.secrets
+      # - ../.output/spark:/spark_warehouse  # MySQL fails if dir mapped directly
+      # - ..:/projects/my-project  R Redundant
+  spark-server:
+    container_name: spark-server
+    image: slalomggp/dataops:latest
+    command: "s-spark start_server"
+    volumes:
+      - .secrets/credentials:/home/.aws/credentials
+      - warehouse:/spark_warehouse
+    environment:
+      # If reading from S3, this must match the S3 bucket's region:
+      - AWS_DEFAULT_REGION=us-east-2
+      - SPARK_UDF_MODULE=
+    ports:
+      - "4040"    # App Web UI
+      - "7077"    # Standalone master driver
+      - "8080"    # Standalone-mode master Web UI
+      - "8081"    # Standalone-mode worker Web UI
+      - "10000"  # Thrift JDBC port for SQL queries
+      - "18080"  # History Server Web UI
