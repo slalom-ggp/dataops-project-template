@@ -20,9 +20,9 @@ module "singer_taps_on_aws" {
         start_date = "2020-02-28T00:00:00Z"
       }
       secrets = {
-        # TODO: Map in your own secrets from AWS secrets manager:
-        username = module.secrets.secrets_ids["SAMPLE_TAP_username"]
-        password = module.secrets.secrets_ids["SAMPLE_TAP_password"]
+        # TODO: Map in your own secrets from local files:
+        username = "../.secrets/aws-secrets-manager-secrets.yml:SAMPLE_TAP_username"
+        password = "../.secrets/aws-secrets-manager-secrets.yml:SAMPLE_TAP_password"
       }
     }
   ]
@@ -35,8 +35,9 @@ module "singer_taps_on_aws" {
       s3_bucket     = module.data_lake_on_aws.s3_data_bucket
     }
     secrets = {
-      aws_access_key_id     = module.secrets.secrets_ids["S3_CSV_aws_access_key_id"]
-      aws_secret_access_key = module.secrets.secrets_ids["S3_CSV_aws_secret_access_key"]
+      # TODO: Make sure you have provided secrets into the secrets file here:
+      aws_access_key_id     = "../.secrets/aws-secrets-manager-secrets.yml:S3_CSV_aws_access_key_id"
+      aws_secret_access_key = "../.secrets/aws-secrets-manager-secrets.yml:S3_CSV_aws_secret_access_key"
     }
   }
 }
