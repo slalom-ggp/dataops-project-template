@@ -1,12 +1,12 @@
 # Secrets directory (`.secrets`)
 
-**Note:**
+**Important:**
 
-* To prevent accidentally committing secrets into source control, all files in this directory except this one (`README.md`) will be **excluded** from git. (Do not store any actual secrets in this readme file.)
+* To prevent accidentally committing secrets into source control, Git will ignore all files in this directory EXCEPT files that end in `.template` and this `README.md` file. (Do not store any actual secrets in templates or in this readme file.)
 
 ## Sample AWS credentials file
 
-* [ ] TODO: for new projects, copy-paste the below into a new `credentials` file.
+* [ ] TODO: for new projects, copy-paste the below into a new `aws-credentials` file.
 
 ```ini
 [default]
