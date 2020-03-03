@@ -17,6 +17,7 @@ infra-config.yml
 **/*secrets.yml
 **/.secrets/**
 !**/.secrets/README.md
+!**/.secrets/*.template
 
 # VS Code cache for containers
 .devcontainer/.vscode**
