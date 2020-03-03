@@ -1,8 +1,5 @@
 module "data_lake_on_aws" {
-
   # BOILERPLATE HEADER (NO NEED TO CHANGE):
-  # TODO: Revert to stable source
-  # source        = "git::https://github.com/slalom-ggp/dataops-infra.git//catalog/aws/singer-taps?ref=master"
   source      = "../../dataops-infra/catalog/aws/data-lake"
   name_prefix = local.name_prefix
   environment = module.env.environment
@@ -30,3 +27,5 @@ module "data_lake_on_aws" {
 
   */
 }
+
+output "data_lake_summary" { value = module.data_lake_on_aws.summary }

@@ -20,6 +20,9 @@
 #   using a one-way hash, which defaults to MD5 with project name as the seed.
 
 
+# TODO: Update this file with data extract rules that match your requirements
+
+
 ###################
 ### PARDOT ########
 ###################

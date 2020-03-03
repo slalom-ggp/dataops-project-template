@@ -6,6 +6,8 @@
 
 ## Sample AWS credentials file
 
+* [ ] TODO: for new projects, copy-paste the below into a new `credentials` file.
+
 ```text
 [{{project_shortname}}-terraform]
 
@@ -14,6 +16,8 @@ aws_secret_access_key={{secret_key}}
 ```
 
 ## Sample secrets file for terraform
+
+* [ ] TODO: for new projects, copy-paste the below into a new `aws-secrets-manager-secrets.yml` file.
 
 `aws-secrets-manager-secrets.yml`
 

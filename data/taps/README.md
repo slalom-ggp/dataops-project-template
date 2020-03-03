@@ -4,30 +4,21 @@ This folder contains scripts and configuration needed to extract external source
 
 ## Table of Contents
 
-- [Getting Started Guide](#getting-started-guide)
-  - [Step 1. Add your sources to plan.sh](#step-1-add-your-sources-to-scansh)
-  - [Step 2. Add your secrets and configuration info](#step-2-add-your-secrets-and-configuration-info)
-  - [Step 3. Add your table extracts to sync.sh](#step-3-add-your-table-extracts-to-syncsh)
-  - [Step 4. Run the three scripts: install, scan, and sync](#step-4-run-the-three-scripts-install-scan-and-sync)
+1. [Table of Contents](#table-of-contents)
+2. [Getting Started Guide](#getting-started-guide)
+   1. [Step 1. Create `config.json` files with your secrets and configuration info](#step-1-create-configjson-files-with-your-secrets-and-configuration-info)
+   2. [Step 2. Run `s-tap` plan and confirm the extraction plan](#step-2-run-s-tap-plan-and-confirm-the-extraction-plan)
+   3. [Step 3. Run `s-tap sync` to test data extracts locally](#step-3-run-s-tap-sync-to-test-data-extracts-locally)
 
 ## Getting Started Guide
 
-_The below examples use `tap-salesforce` to extract data and `target-csv` to save the files locally in the CSV data format._
+_The below examples use `tap-salesforce` and `tap-pardot` to extract data and `target-csv` to save the files locally in CSV data format._
 
-### Step 1. Add your sources to `plan.sh`
-
-```bash
-# Use this script to create or update the metadata catalog for a specified tap.
-# i.e.: s-tap discover TAP_NAME
-
-s-tap discover salesforce
-```
-
-### Step 2. Add your secrets and configuration info
+### Step 1. Create `config.json` files with your secrets and configuration info
 
 Create or modify your tap settings file(s) in the .secrets directory.
 
-_Example for salesforce config `.secrets/tap-salesforce-config.json`:_
+_Example Salesforce config `.secrets/tap-salesforce-config.json`:_
 
 ```json
 {
@@ -41,22 +32,36 @@ _Example for salesforce config `.secrets/tap-salesforce-config.json`:_
 }
 ```
 
-### Step 3. Add your table extracts to `sync.sh`
+_Example Pardot config `.secrets/tap-pardot-config.json`:_
+
+```json
+{
+    "start_date": "2019-11-02T00:00:00Z",
+    "email": "my.name@****.com",
+    "password": "**********",
+    "user_key": "********",
+}
+```
+
+### Step 2. Run `s-tap` plan and confirm the extraction plan
 
 ```bash
-#!/bin/bash
-# Use this script to extract data for your project.
+# Use this script to create or update the metadata catalog for a specified tap.
+# i.e.: s-tap discover TAP_NAME
 
+s-tap plan pardot
+s-tap plan salesforce
+```
+
+### Step 3. Run `s-tap sync` to test data extracts locally
+
+```bash
 # Salesforce extracts:
 s-tap sync salesforce Account
 s-tap sync salesforce Opportunity
 s-tap sync salesforce OpportunityHistory
 s-tap sync salesforce User
-```
 
-### Step 4. Run the three scripts: `install`, `scan`, and `sync`
-
-```bash
-bash ./plan.sh       # Scans source metadata and creates catalog files with tables names, column names, and data types
-bash ./sync.sh       # Sync data from your data sources
+# Pardot extracts:
+s-tap sync pardot *
 ```
