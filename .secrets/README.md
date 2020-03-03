@@ -8,8 +8,8 @@
 
 * [ ] TODO: for new projects, copy-paste the below into a new `credentials` file.
 
-```text
-[{{project_shortname}}-terraform]
+```ini
+[default]
 
 aws_access_key_id={{access_key}}
 aws_secret_access_key={{secret_key}}
@@ -26,20 +26,9 @@ aws_secret_access_key={{secret_key}}
 # Secrets will be created in secret manager as follows:
 #           arn:aws:secretsmanager:us-east-2::secret:MY-APP-ID-ygkLPL
 
-APPLICATION_A:
- USERNAME: my-username
- PASSWORD: my-pass
+SAMPLE_TAP_username: my-username
+SAMPLE_TAP_password: my-pass
 
-APPLICATION_B:
- USERNAME: my-username
- PASSWORD: my-pass
- API_KEY: my-api-key
-
-SIMPLE_SECRET: foobar
-
-# Notes:
-#  - The header name becomes the name of the secret and is automatically concatenated with a random string in the ARN
-#  - Simple secrets will simply be encoded as strings
-#  - Secrets with multiple values will be stored as JSON, as in this example:
-#       `{ "USERNAME": "foo", "PASSWORD": "bar" }`
+S3_CSV_aws_access_key_id:     asdf******
+S3_CSV_aws_secret_access_key: asdf******
 ```
