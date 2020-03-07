@@ -1,4 +1,4 @@
-module "data_lake_on_aws" {
+module "data_lake" {
   # BOILERPLATE HEADER (NO NEED TO CHANGE):
   source      = "../../dataops-infra/catalog/aws/data-lake"
   name_prefix = local.name_prefix
@@ -28,4 +28,4 @@ module "data_lake_on_aws" {
   */
 }
 
-output "data_lake_summary" { value = module.data_lake_on_aws.summary }
+output "data_lake_summary" { value = module.data_lake.summary }

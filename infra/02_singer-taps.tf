@@ -9,7 +9,7 @@ module "singer_taps_on_aws" {
   # ADD OR MODIFY CONFIGURATION HERE:
 
   source_code_folder    = "../data/taps"
-  source_code_s3_bucket = module.data_lake_on_aws.s3_metadata_bucket
+  source_code_s3_bucket = module.data_lake.s3_metadata_bucket
   scheduled_timezone    = "PST"
   scheduled_sync_times  = ["0600"]
   taps = [
@@ -32,7 +32,7 @@ module "singer_taps_on_aws" {
     settings = {
       # TODO: update S3 target path:
       s3_key_prefix = "data/raw/sample-tap/v1/"
-      s3_bucket     = module.data_lake_on_aws.s3_data_bucket
+      s3_bucket     = module.data_lake.s3_data_bucket
     }
     secrets = {
       # TODO: Make sure you have provided secrets into the secrets file here:
