@@ -7,7 +7,7 @@ This folder contains scripts and configuration needed to extract external source
 1. [Table of Contents](#table-of-contents)
 2. [Getting Started Guide](#getting-started-guide)
    1. [Step 1. Create `config.json` files with your secrets and configuration info](#step-1-create-configjson-files-with-your-secrets-and-configuration-info)
-   2. [Step 2. Run `s-tap` plan and confirm the extraction plan](#step-2-run-s-tap-plan-and-confirm-the-extraction-plan)
+   2. [Step 2. Run `s-tap plan` and confirm the extraction plan](#step-2-run-s-tap-plan-and-confirm-the-extraction-plan)
    3. [Step 3. Run `s-tap sync` to test data extracts locally](#step-3-run-s-tap-sync-to-test-data-extracts-locally)
 
 ## Getting Started Guide
@@ -43,7 +43,7 @@ _Example Pardot config `.secrets/tap-pardot-config.json`:_
 }
 ```
 
-### Step 2. Run `s-tap` plan and confirm the extraction plan
+### Step 2. Run `s-tap plan` and confirm the extraction plan
 
 ```bash
 # Use this script to create or update the metadata catalog for a specified tap.

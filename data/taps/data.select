@@ -22,6 +22,11 @@
 
 # TODO: Update this file with data extract rules that match your requirements
 
+################
+### COVID-19 ###
+################
+
+covid-19.*.*
 
 ###################
 ### PARDOT ########
