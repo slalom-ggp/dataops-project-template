@@ -24,7 +24,7 @@ module "singer_taps_on_aws" {
         start_date = "2020-02-28T00:00:00Z"
       }
       secrets = {
-        # TODO: Map in your own secrets from local files:
+        # TODO: Map in your own secrets from a local tap-config JSON file:
         username = "../data/taps/.secrets/tap-[SAMPLE]-config.json:SAMPLE_TAP_username"
         password = "../data/taps/.secrets/tap-[SAMPLE]-config.json:SAMPLE_TAP_password"
       }
@@ -36,12 +36,10 @@ module "singer_taps_on_aws" {
   #   # Output to S3 CSV by default:
   #   id = "s3-csv"
   #   settings = {
-  #     # TODO: update S3 target path:
   #     s3_key_prefix = "data/raw/sample-tap/v1/"
   #     s3_bucket     = module.data_lake.s3_data_bucket
   #   }
   #   secrets = {
-  #     # TODO: Make sure you have provided secrets into the secrets file here:
   #     aws_access_key_id     = "../.secrets/aws-secrets-manager-secrets.yml:S3_CSV_aws_access_key_id"
   #     aws_secret_access_key = "../.secrets/aws-secrets-manager-secrets.yml:S3_CSV_aws_secret_access_key"
   #   }
