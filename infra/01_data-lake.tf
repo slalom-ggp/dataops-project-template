@@ -25,5 +25,4 @@ module "data_lake" {
 
   */
 }
-
 output "data_lake_summary" { value = module.data_lake.summary }

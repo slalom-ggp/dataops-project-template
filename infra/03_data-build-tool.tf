@@ -27,6 +27,4 @@ module "dbt_on_aws" {
 
   */
 }
-
-# BOILERPLATE OUTPUT (NO NEED TO CHANGE):
 output "dbt_summary" { value = module.dbt_on_aws.summary }
