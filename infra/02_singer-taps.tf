@@ -1,14 +1,14 @@
 output "singer_summary" { value = module.singer_taps_on_aws.summary }
 module "singer_taps_on_aws" {
   # BOILERPLATE HEADER (NO NEED TO CHANGE):
-  source        = "../../dataops-infra/catalog/aws/singer-taps"
+  source        = "git::https://github.com/slalom-ggp/dataops-infra//catalog/aws/singer-taps?ref=master"
   name_prefix   = local.name_prefix
-  resource_tags = local.resource_tags
   environment   = module.env.environment
+  resource_tags = local.resource_tags
 
   # ADD OR MODIFY CONFIGURATION HERE:
 
-  local_metadata_path    = "../data/taps"
+  local_metadata_path   = "../data/taps"
   source_code_s3_bucket = module.data_lake.s3_metadata_bucket
   scheduled_timezone    = "PST"
   scheduled_sync_times  = ["0600"]

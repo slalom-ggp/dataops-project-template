@@ -1,8 +1,9 @@
 module "data_lake" {
   # BOILERPLATE HEADER (NO NEED TO CHANGE):
-  source      = "../../dataops-infra/catalog/aws/data-lake"
-  name_prefix = local.name_prefix
-  environment = module.env.environment
+  source        = "git::https://github.com/slalom-ggp/dataops-infra//catalog/aws/data-lake?ref=master"
+  name_prefix   = local.name_prefix
+  environment   = module.env.environment
+  resource_tags = local.resource_tags
 
   # CONFIGURE HERE:
 
@@ -10,10 +11,7 @@ module "data_lake" {
   /*
   # OPTIONALLY, COPY-PASTE ADDITIONAL SETTINGS FROM BELOW:
 
-  vpc_id               = module.env.vpc_id
-  public_subnets       = module.env.public_subnets
-  private_subnets      = module.env.private_subnets
-  admin_cidr           = []
+  admin_cidr       = []
   app_cidr         = ["0.0.0.0/0"]
   lambda_python_source = "${path.module}/python/fn_lambda_logger"
   s3_triggers = {

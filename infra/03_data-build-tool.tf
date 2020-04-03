@@ -1,17 +1,13 @@
 module "dbt_on_aws" {
 
   # BOILERPLATE HEADER (NO NEED TO CHANGE):
-  # TODO: Revert to stable source
-  # source        = "git::https://github.com/slalom-ggp/dataops-infra.git//catalog/aws/dbt?ref=master"
-  source          = "../../dataops-infra/catalog/aws/dbt"
-  name_prefix     = local.name_prefix
-  resource_tags   = local.resource_tags
-  environment     = module.env.environment
+  source        = "git::https://github.com/slalom-ggp/dataops-infra//catalog/aws/dbt?ref=master"
+  name_prefix   = local.name_prefix
+  environment   = module.env.environment
+  resource_tags = local.resource_tags
 
   # ADD OR MODIFY CONFIGURATION HERE:
 
-  # container_image            = file("../../Dockerimage")
-  # dbt_run_command            = "./gradlew runAll"
   container_image            = "slalomggp/dataops:test-project-latest-dev"
   dbt_run_command            = "./gradlew dbtSeed dbtCompile dbtRun"
   scheduled_timezone         = "PST"
