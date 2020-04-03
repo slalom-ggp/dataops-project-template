@@ -8,7 +8,7 @@ module "singer_taps_on_aws" {
 
   # ADD OR MODIFY CONFIGURATION HERE:
 
-  source_code_folder    = "../data/taps"
+  local_metadata_path    = "../data/taps"
   source_code_s3_bucket = module.data_lake.s3_metadata_bucket
   scheduled_timezone    = "PST"
   scheduled_sync_times  = ["0600"]
