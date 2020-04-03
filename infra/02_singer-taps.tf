@@ -8,11 +8,15 @@ module "singer_taps_on_aws" {
 
   # ADD OR MODIFY CONFIGURATION HERE:
 
-  local_metadata_path   = "../data/taps"
-  source_code_s3_bucket = module.data_lake.s3_metadata_bucket
-  scheduled_timezone    = "PST"
-  scheduled_sync_times  = ["0600"]
+  local_metadata_path     = "../data/taps"
+  data_lake_type          = "S3"
+  data_lake_metadata_path = "s3://${module.data_lake.s3_metadata_bucket}"
+  data_lake_storage_path  = "s3://${module.data_lake.s3_data_bucket}/data/raw"
+  scheduled_timezone      = "PST"
+  scheduled_sync_times    = ["0600"]
+
   taps = [
+    # Learn more and browse open source taps at: https://www.singer.io
     {
       id = "sample-tap"
       settings = {
@@ -21,23 +25,25 @@ module "singer_taps_on_aws" {
       }
       secrets = {
         # TODO: Map in your own secrets from local files:
-        username = "../.secrets/aws-secrets-manager-secrets.yml:SAMPLE_TAP_username"
-        password = "../.secrets/aws-secrets-manager-secrets.yml:SAMPLE_TAP_password"
+        username = "../data/taps/.secrets/tap-[SAMPLE]-config.json:SAMPLE_TAP_username"
+        password = "../data/taps/.secrets/tap-[SAMPLE]-config.json:SAMPLE_TAP_password"
       }
     }
   ]
-  target = {
-    # Output to S3 CSV by default:
-    id = "s3-csv"
-    settings = {
-      # TODO: update S3 target path:
-      s3_key_prefix = "data/raw/sample-tap/v1/"
-      s3_bucket     = module.data_lake.s3_data_bucket
-    }
-    secrets = {
-      # TODO: Make sure you have provided secrets into the secrets file here:
-      aws_access_key_id     = "../.secrets/aws-secrets-manager-secrets.yml:S3_CSV_aws_access_key_id"
-      aws_secret_access_key = "../.secrets/aws-secrets-manager-secrets.yml:S3_CSV_aws_secret_access_key"
-    }
-  }
+
+  # Target is not needed when data_lake_storage_path is provided:
+  # target = {
+  #   # Output to S3 CSV by default:
+  #   id = "s3-csv"
+  #   settings = {
+  #     # TODO: update S3 target path:
+  #     s3_key_prefix = "data/raw/sample-tap/v1/"
+  #     s3_bucket     = module.data_lake.s3_data_bucket
+  #   }
+  #   secrets = {
+  #     # TODO: Make sure you have provided secrets into the secrets file here:
+  #     aws_access_key_id     = "../.secrets/aws-secrets-manager-secrets.yml:S3_CSV_aws_access_key_id"
+  #     aws_secret_access_key = "../.secrets/aws-secrets-manager-secrets.yml:S3_CSV_aws_secret_access_key"
+  #   }
+  # }
 }
