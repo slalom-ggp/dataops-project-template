@@ -1,3 +1,8 @@
+locals {
+  # TODO: Specificy ID of tap (without the "tap-" prefix)
+  tap_id = "sample"
+}
+
 output "singer_summary" { value = module.singer_taps_on_aws.summary }
 module "singer_taps_on_aws" {
   # BOILERPLATE HEADER (NO NEED TO CHANGE):
@@ -9,29 +14,30 @@ module "singer_taps_on_aws" {
   # ADD OR MODIFY CONFIGURATION HERE:
 
   local_metadata_path     = "../data/taps"
-  data_lake_type          = "S3"
   data_lake_metadata_path = "s3://${module.data_lake.s3_metadata_bucket}"
-  data_lake_storage_path  = "s3://${module.data_lake.s3_data_bucket}/data/raw"
   scheduled_timezone      = "PST"
   scheduled_sync_times    = ["0600"]
 
   taps = [
     # Learn more and browse open source taps at: https://www.singer.io
     {
-      id = "sample-tap"
+      id = local.tap_id
       settings = {
         # How far back to backfill:
-        start_date = "2020-02-28T00:00:00Z"
+        start_date = "2019-01-01T00:00:00Z"
       }
       secrets = {
-        # TODO: Map in your own secrets from a local tap-config JSON file:
-        username = "../data/taps/.secrets/tap-[SAMPLE]-config.json:SAMPLE_TAP_username"
-        password = "../data/taps/.secrets/tap-[SAMPLE]-config.json:SAMPLE_TAP_password"
+        # TODO: Replace `username` and `password` with the secrets needed by this tap
+        username = "../data/taps/.secrets/tap-${local.tap_id}-config.json:username"
+        password = "../data/taps/.secrets/tap-${local.tap_id}-config.json:password"
       }
     }
   ]
 
-  # Target is not needed when data_lake_storage_path is provided:
+  data_lake_type          = "S3"
+  data_lake_storage_path  = "s3://${module.data_lake.s3_data_bucket}/data/raw"
+
+  # # Target is not needed when data_lake_storage_path is provided:
   # target = {
   #   # Output to S3 CSV by default:
   #   id = "s3-csv"
