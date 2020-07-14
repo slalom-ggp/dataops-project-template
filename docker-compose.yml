@@ -31,7 +31,7 @@ services:
     image: slalomggp/dataops:latest
     command: "s-spark start_server"
     volumes:
-      - .secrets/credentials:/home/.aws/credentials
+      - .secrets/aws-credentials:/home/.aws/credentials
       - warehouse:/spark_warehouse
     environment:
       # If reading from S3, this must match the S3 bucket's region:
