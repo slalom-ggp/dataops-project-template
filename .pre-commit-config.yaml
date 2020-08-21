@@ -1,0 +1,9 @@
+# Important: Prevent accidental leakage of keys and other secrets:
+# https://infra.dataops.tk/docs/secrets.html
+repos:
+  - repo: https://github.com/yelp/detect-secrets
+    rev: v0.14.2
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: .*/tests/.*
