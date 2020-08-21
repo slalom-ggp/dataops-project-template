@@ -17,8 +17,4 @@ _The structure below is designed to minimize clutter and create separation betwe
 6. `tools` - Special tools or scripts that assist in automating certain processes.
 7. `"Dot" Folders`
    1. `.secrets` - This is a special folder whose contents are not committed to git. You can safely store secrets into this folder if needed for a project. _(DO NOT store secrets anywhere in the repo besides the `.secrets` folder.)_
-   2. Other folders that begin with a dot ("."). These folders store temporary files or tool-specific configs (`.gradle`, `.git`, `.github`, `.vscode`, etc.)
-
-## Quick Intro to Gradle
-
-the [Gradle](www.gradle.org) build tool is a simple and extensible build automation tool, which streamlines repetitive tasks. For more info on how to use Gradle with this project, see the Gradle Overview and How-To at [tools/gradle/README.md](tools/gradle/README.md).
+   2. Other folders that begin with a dot ("."). These folders store temporary files or tool-specific configs (`.git`, `.github`, `.vscode`, etc.)
