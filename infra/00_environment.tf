@@ -3,8 +3,8 @@
 ################################
 
 locals {
-  root                 = "../.."                       # Path to root of repo
   yaml_config_path     = "../infra-config.yml"         # Required settings
+  root                 = ".."                          # Path to root of repo
   secrets_folder       = "../.secrets"                 # Default secrets location
   aws_credentials_file = "../.secrets/aws-credentials" # AWS Credentials
 }
@@ -23,13 +23,6 @@ locals {
   name_prefix       = "${local.project_shortname}-"
 }
 
-provider "aws" {
-  version                 = "~> 2.10"
-  region                  = local.aws_region
-  shared_credentials_file = local.aws_credentials_file
-  profile                 = "default"
-}
-
 output "env_summary" { value = module.env.summary }
 module "env" {
   source               = "git::https://github.com/slalom-ggp/dataops-infra//catalog/aws/environment?ref=main"
@@ -37,4 +30,19 @@ module "env" {
   aws_region           = local.aws_region
   aws_credentials_file = local.aws_credentials_file
   resource_tags        = local.resource_tags
+
+  # For documentation and additional options, see:
+  # https://infra.dataops.tk/catalog/aws/environment
+}
+
+terraform {
+  required_providers {
+    aws = "~> 3.0"
+  }
+}
+
+provider "aws" {
+  region                  = local.aws_region
+  shared_credentials_file = local.aws_credentials_file
+  profile                 = "default"
 }
